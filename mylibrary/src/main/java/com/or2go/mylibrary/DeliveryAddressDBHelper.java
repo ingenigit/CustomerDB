@@ -10,8 +10,6 @@ import com.or2go.core.DeliveryAddrInfo;
 
 import java.util.ArrayList;
 
-//import genipos.customer.DeliveryAddrInfo;
-
 public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
 
     private static DeliveryAddressDBHelper sInstance;

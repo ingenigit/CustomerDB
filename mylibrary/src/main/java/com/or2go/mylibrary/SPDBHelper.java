@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.or2go.core.SPInfo;
 
-//import genipos.customer.SPInfo;
-
 public class SPDBHelper extends SQLiteOpenHelper {
     //public SQLiteDatabase SPDBConn;
     Context mContext;

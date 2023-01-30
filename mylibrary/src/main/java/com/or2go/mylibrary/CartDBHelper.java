@@ -12,10 +12,6 @@ import com.or2go.core.UnitManager;
 
 import java.util.ArrayList;
 
-//import genipos.customer.CartItem;
-//import genipos.customer.OrderItem;
-//import genipos.customer.UnitManager;
-
 public class CartDBHelper extends SQLiteOpenHelper {
 
     private static CartDBHelper sInstance;
