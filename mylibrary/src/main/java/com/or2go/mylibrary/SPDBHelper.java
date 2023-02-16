@@ -184,23 +184,23 @@ public class SPDBHelper extends SQLiteOpenHelper {
         {
             cursor.moveToFirst();
 
-            String spname = cursor.getString(cursor.getColumnIndex("spname"));
-            String propname = cursor.getString(cursor.getColumnIndex("propname"));
-            String contact = cursor.getString(cursor.getColumnIndex("contact"));
-            String altcontact = cursor.getString(cursor.getColumnIndex("altcontact"));
-            String email = cursor.getString(cursor.getColumnIndex("email"));
-            String address = cursor.getString(cursor.getColumnIndex("address"));
-            String place = cursor.getString(cursor.getColumnIndex("place"));
-            String state = cursor.getString(cursor.getColumnIndex("state"));
-            String pincode = cursor.getString(cursor.getColumnIndex("zipcode"));
-            String status = cursor.getString(cursor.getColumnIndex("status"));
-            String closestatus = cursor.getString(cursor.getColumnIndex("closestatus"));
-            String closedfrom = cursor.getString(cursor.getColumnIndex("closedfrom"));
-            String closedtill = cursor.getString(cursor.getColumnIndex("closedtill"));
-            String closedreason = cursor.getString(cursor.getColumnIndex("closedreason"));
-            String closedon = cursor.getString(cursor.getColumnIndex("closedon"));
-            String logopath = cursor.getString(cursor.getColumnIndex("logopath"));
-            int dbversion = cursor.getInt(cursor.getColumnIndex("dbversion"));
+            String spname = cursor.getString(cursor.getColumnIndexOrThrow("spname"));
+            String propname = cursor.getString(cursor.getColumnIndexOrThrow("propname"));
+            String contact = cursor.getString(cursor.getColumnIndexOrThrow("contact"));
+            String altcontact = cursor.getString(cursor.getColumnIndexOrThrow("altcontact"));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+            String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+            String state = cursor.getString(cursor.getColumnIndexOrThrow("state"));
+            String pincode = cursor.getString(cursor.getColumnIndexOrThrow("zipcode"));
+            String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
+            String closestatus = cursor.getString(cursor.getColumnIndexOrThrow("closestatus"));
+            String closedfrom = cursor.getString(cursor.getColumnIndexOrThrow("closedfrom"));
+            String closedtill = cursor.getString(cursor.getColumnIndexOrThrow("closedtill"));
+            String closedreason = cursor.getString(cursor.getColumnIndexOrThrow("closedreason"));
+            String closedon = cursor.getString(cursor.getColumnIndexOrThrow("closedon"));
+            String logopath = cursor.getString(cursor.getColumnIndexOrThrow("logopath"));
+            int dbversion = cursor.getInt(cursor.getColumnIndexOrThrow("dbversion"));
 
             spinfo = new SPInfo(spname, propname, contact, altcontact, email, address, place, state, pincode, status, logopath, closestatus, closedfrom,
                     closedtill, closedreason, closedon, dbversion);

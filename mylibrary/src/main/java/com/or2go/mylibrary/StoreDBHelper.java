@@ -300,31 +300,31 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
 
                 //orderid text, itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text
-                String vid = cursor.getString(cursor.getColumnIndex("storeid"));
-                String vname = cursor.getString(cursor.getColumnIndex("name"));
-                String  vservice= cursor.getString(cursor.getColumnIndex("servicetype"));
-                String vstoretype = cursor.getString(cursor.getColumnIndex("storetype"));
-                String vdesc = cursor.getString(cursor.getColumnIndex("description"));
-                String tag = cursor.getString(cursor.getColumnIndex("tags"));
-                String vaddr = cursor.getString(cursor.getColumnIndex("address"));
-                String vplace = cursor.getString(cursor.getColumnIndex("place"));
-                String vlocality = cursor.getString(cursor.getColumnIndex("locality"));
-                String vstate = cursor.getString(cursor.getColumnIndex("state"));
-                Integer vstatus = cursor.getInt(cursor.getColumnIndex("status"));
-                String vminord = cursor.getString(cursor.getColumnIndex("minorder"));
-                String voptime = cursor.getString(cursor.getColumnIndex("worktime"));
-                String vclosed = cursor.getString(cursor.getColumnIndex("closedon"));
+                String vid = cursor.getString(cursor.getColumnIndexOrThrow("storeid"));
+                String vname = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String  vservice= cursor.getString(cursor.getColumnIndexOrThrow("servicetype"));
+                String vstoretype = cursor.getString(cursor.getColumnIndexOrThrow("storetype"));
+                String vdesc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+                String tag = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
+                String vaddr = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                String vplace = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+                String vlocality = cursor.getString(cursor.getColumnIndexOrThrow("locality"));
+                String vstate = cursor.getString(cursor.getColumnIndexOrThrow("state"));
+                Integer vstatus = cursor.getInt(cursor.getColumnIndexOrThrow("status"));
+                String vminord = cursor.getString(cursor.getColumnIndexOrThrow("minorder"));
+                String voptime = cursor.getString(cursor.getColumnIndexOrThrow("worktime"));
+                String vclosed = cursor.getString(cursor.getColumnIndexOrThrow("closedon"));
 
-                Integer proddbver = cursor.getInt(cursor.getColumnIndex("productdbversion"));
-                Integer infover = cursor.getInt(cursor.getColumnIndex("infoversion"));
-                Integer pricever = cursor.getInt(cursor.getColumnIndex("pricedbversion"));
-                Integer skuver = cursor.getInt(cursor.getColumnIndex("skudbversion"));
-                String geolocation = cursor.getString(cursor.getColumnIndex("geolocation"));
+                Integer proddbver = cursor.getInt(cursor.getColumnIndexOrThrow("productdbversion"));
+                Integer infover = cursor.getInt(cursor.getColumnIndexOrThrow("infoversion"));
+                Integer pricever = cursor.getInt(cursor.getColumnIndexOrThrow("pricedbversion"));
+                Integer skuver = cursor.getInt(cursor.getColumnIndexOrThrow("skudbversion"));
+                String geolocation = cursor.getString(cursor.getColumnIndexOrThrow("geolocation"));
 
-                Integer ordcontrol = cursor.getInt(cursor.getColumnIndex("orderoption"));
-                Integer payoption = cursor.getInt(cursor.getColumnIndex("payoption"));
+                Integer ordcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("orderoption"));
+                Integer payoption = cursor.getInt(cursor.getColumnIndexOrThrow("payoption"));
 
-                String favitems = cursor.getString(cursor.getColumnIndex("favproducts"));
+                String favitems = cursor.getString(cursor.getColumnIndexOrThrow("favproducts"));
 
                 //String shutfrom = cursor.getString(cursor.getColumnIndex("shutfrom"));
                 //String shuttill = cursor.getString(cursor.getColumnIndex("shuttill"));

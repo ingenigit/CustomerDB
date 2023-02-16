@@ -278,33 +278,33 @@ public class VendorDBHelper extends SQLiteOpenHelper {
 
 
                 //orderid text, itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text
-                String vid = cursor.getString(cursor.getColumnIndex("vendorid"));
-                String vname = cursor.getString(cursor.getColumnIndex("name"));
-                String vtype = cursor.getString(cursor.getColumnIndex("type"));
-                String vstoretype = cursor.getString(cursor.getColumnIndex("storetype"));
-                String vdesc = cursor.getString(cursor.getColumnIndex("description"));
-                String tag = cursor.getString(cursor.getColumnIndex("tags"));
-                String vaddr = cursor.getString(cursor.getColumnIndex("address"));
-                String vplace = cursor.getString(cursor.getColumnIndex("place"));
-                String vlocality = cursor.getString(cursor.getColumnIndex("locality"));
-                String vstate = cursor.getString(cursor.getColumnIndex("state"));
-                String vstatus = cursor.getString(cursor.getColumnIndex("status"));
-                String vminord = cursor.getString(cursor.getColumnIndex("minorder"));
-                String voptime = cursor.getString(cursor.getColumnIndex("worktime"));
-                String vclosed = cursor.getString(cursor.getColumnIndex("closedon"));
-                String logopath = cursor.getString(cursor.getColumnIndex("logopath"));
-                String dbname = cursor.getString(cursor.getColumnIndex("dbname"));
-                Integer proddbver = cursor.getInt(cursor.getColumnIndex("dbversion"));
-                Integer infover = cursor.getInt(cursor.getColumnIndex("infoversion"));
-                Integer pricever = cursor.getInt(cursor.getColumnIndex("pricedbversion"));
+                String vid = cursor.getString(cursor.getColumnIndexOrThrow("vendorid"));
+                String vname = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String vtype = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+                String vstoretype = cursor.getString(cursor.getColumnIndexOrThrow("storetype"));
+                String vdesc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+                String tag = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
+                String vaddr = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                String vplace = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+                String vlocality = cursor.getString(cursor.getColumnIndexOrThrow("locality"));
+                String vstate = cursor.getString(cursor.getColumnIndexOrThrow("state"));
+                String vstatus = cursor.getString(cursor.getColumnIndexOrThrow("status"));
+                String vminord = cursor.getString(cursor.getColumnIndexOrThrow("minorder"));
+                String voptime = cursor.getString(cursor.getColumnIndexOrThrow("worktime"));
+                String vclosed = cursor.getString(cursor.getColumnIndexOrThrow("closedon"));
+                String logopath = cursor.getString(cursor.getColumnIndexOrThrow("logopath"));
+                String dbname = cursor.getString(cursor.getColumnIndexOrThrow("dbname"));
+                Integer proddbver = cursor.getInt(cursor.getColumnIndexOrThrow("dbversion"));
+                Integer infover = cursor.getInt(cursor.getColumnIndexOrThrow("infoversion"));
+                Integer pricever = cursor.getInt(cursor.getColumnIndexOrThrow("pricedbversion"));
 
-                Integer ordcontrol = cursor.getInt(cursor.getColumnIndex("manageorder"));
-                Integer payoption = cursor.getInt(cursor.getColumnIndex("payoption"));
+                Integer ordcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("manageorder"));
+                Integer payoption = cursor.getInt(cursor.getColumnIndexOrThrow("payoption"));
 
-                String shutfrom = cursor.getString(cursor.getColumnIndex("shutfrom"));
-                String shuttill = cursor.getString(cursor.getColumnIndex("shuttill"));
-                String shutres = cursor.getString(cursor.getColumnIndex("shutreason"));
-                Integer shuttype = cursor.getInt(cursor.getColumnIndex("shuttype"));
+                String shutfrom = cursor.getString(cursor.getColumnIndexOrThrow("shutfrom"));
+                String shuttill = cursor.getString(cursor.getColumnIndexOrThrow("shuttill"));
+                String shutres = cursor.getString(cursor.getColumnIndexOrThrow("shutreason"));
+                Integer shuttype = cursor.getInt(cursor.getColumnIndexOrThrow("shuttype"));
 
                 /*
                 String time[] = voptime.split("-");

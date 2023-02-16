@@ -163,7 +163,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         else
         {
             cr.moveToFirst();
-            result = cr.getInt(cr.getColumnIndex("id"));
+            result = cr.getInt(cr.getColumnIndexOrThrow("id"));
         }
         cr.close();
 
@@ -186,24 +186,24 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             cr.moveToFirst();
 
             iteminfo.id = itemid;
-            iteminfo.name = cr.getString(cr.getColumnIndex("name"));
-            iteminfo.brandname = cr.getString(cr.getColumnIndex("shortname"));
-            iteminfo.desc = cr.getString(cr.getColumnIndex("description"));
-            iteminfo.type = cr.getInt(cr.getColumnIndex("category"));
-            iteminfo.category = cr.getString(cr.getColumnIndex("category"));
-            iteminfo.subcategory = cr.getString(cr.getColumnIndex("subcategory"));
-            iteminfo.code = cr.getString(cr.getColumnIndex("prodcode"));
-            iteminfo.barcode = cr.getString(cr.getColumnIndex("barcode"));
-            iteminfo.gstcode = cr.getString(cr.getColumnIndex("hsncode"));
+            iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
+            iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
+            iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
+            iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+            iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
+            iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
+            iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
+            iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
+            iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
 
-            iteminfo.packtype = cr.getInt(cr.getColumnIndex("packtype"));
-            iteminfo.price =cr.getFloat(cr.getColumnIndex("price"));
+            iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
+            iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
 
-            iteminfo.unit = cr.getInt(cr.getColumnIndex("priceunit"));
-            iteminfo.taxincl = cr.getInt(cr.getColumnIndex("taxincl"));
-            iteminfo.taxrate =cr.getFloat(cr.getColumnIndex("taxrate"));
+            iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
+            iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+            iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
 
-            iteminfo.tag = cr.getString(cr.getColumnIndex("tag"));
+            iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
 
         }
         else
@@ -322,24 +322,24 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < count; i++) {
                 ProductInfo iteminfo = new ProductInfo();
 
-                iteminfo.id = cr.getInt(cr.getColumnIndex("id"));;
-                iteminfo.name = cr.getString(cr.getColumnIndex("name"));
-                iteminfo.brandname = cr.getString(cr.getColumnIndex("shortname"));
-                iteminfo.desc = cr.getString(cr.getColumnIndex("description"));
-                iteminfo.type = cr.getInt(cr.getColumnIndex("category"));
-                iteminfo.category = cr.getString(cr.getColumnIndex("category"));
-                iteminfo.subcategory = cr.getString(cr.getColumnIndex("subcategory"));
-                iteminfo.code = cr.getString(cr.getColumnIndex("prodcode"));
-                iteminfo.barcode = cr.getString(cr.getColumnIndex("barcode"));
-                iteminfo.gstcode = cr.getString(cr.getColumnIndex("hsncode"));
-                iteminfo.price =cr.getFloat(cr.getColumnIndex("price"));
-                iteminfo.unit = cr.getInt(cr.getColumnIndex("priceunit"));
-                iteminfo.packtype=cr.getInt(cr.getColumnIndex("packtype"));
-                iteminfo.maxprice=cr.getFloat(cr.getColumnIndex("maxprice"));
-                iteminfo.taxincl = cr.getInt(cr.getColumnIndex("taxinclusion"));
-                iteminfo.taxrate =cr.getFloat(cr.getColumnIndex("taxrate"));
-                iteminfo.tag = cr.getString(cr.getColumnIndex("tag"));
-                iteminfo.invcontrol= cr.getInt(cr.getColumnIndex("invcontrol"));
+                iteminfo.id = cr.getInt(cr.getColumnIndexOrThrow("id"));;
+                iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
+                iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
+                iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
+                iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+                iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
+                iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
+                iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
+                iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
+                iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
+                iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
+                iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
+                iteminfo.packtype=cr.getInt(cr.getColumnIndexOrThrow("packtype"));
+                iteminfo.maxprice=cr.getFloat(cr.getColumnIndexOrThrow("maxprice"));
+                iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxinclusion"));
+                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
+                iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
+                iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
 
                 prdlist.add(iteminfo);
 
@@ -366,23 +366,23 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < count; i++) {
                 ProductInfo iteminfo = new ProductInfo();
 
-                iteminfo.id = cr.getInt(cr.getColumnIndex("id"));;
-                iteminfo.name = cr.getString(cr.getColumnIndex("name"));
-                iteminfo.brandname = cr.getString(cr.getColumnIndex("shortname"));
-                iteminfo.desc = cr.getString(cr.getColumnIndex("description"));
-                iteminfo.type = cr.getInt(cr.getColumnIndex("category"));
-                iteminfo.category = cr.getString(cr.getColumnIndex("category"));
-                iteminfo.subcategory = cr.getString(cr.getColumnIndex("subcategory"));
-                iteminfo.code = cr.getString(cr.getColumnIndex("prodcode"));
-                iteminfo.barcode = cr.getString(cr.getColumnIndex("barcode"));
-                iteminfo.gstcode = cr.getString(cr.getColumnIndex("hsncode"));
-                iteminfo.packtype = cr.getInt(cr.getColumnIndex("packtype"));
-                iteminfo.price =cr.getFloat(cr.getColumnIndex("price"));
-                iteminfo.unit = cr.getInt(cr.getColumnIndex("priceunit"));
-                iteminfo.taxincl = cr.getInt(cr.getColumnIndex("taxinclusion"));
-                iteminfo.taxrate =cr.getFloat(cr.getColumnIndex("taxrate"));
-                iteminfo.tag = cr.getString(cr.getColumnIndex("tag"));
-                iteminfo.invcontrol= cr.getInt(cr.getColumnIndex("invcontrol"));
+                iteminfo.id = cr.getInt(cr.getColumnIndexOrThrow("id"));;
+                iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
+                iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
+                iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
+                iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+                iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
+                iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
+                iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
+                iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
+                iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
+                iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
+                iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
+                iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
+                iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxinclusion"));
+                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
+                iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
+                iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
 
                 if ((!invcontrol) && (iteminfo.invcontrol==1)) invcontrol=true;
 
@@ -483,16 +483,16 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
             for (int i=0; i < cnt; i++)
             {
-                Integer priceid = cr.getInt(cr.getColumnIndex("priceid"));
+                Integer priceid = cr.getInt(cr.getColumnIndexOrThrow("priceid"));
                 //Integer prdid = cr.getInt(cr.getColumnIndex("prodid"));
-                Integer skuid = cr.getInt(cr.getColumnIndex("skuid"));
-                Integer unit = cr.getInt(cr.getColumnIndex("unit"));
-                String pamnt = cr.getString(cr.getColumnIndex("amount"));
-                String price = cr.getString(cr.getColumnIndex("saleprice"));
-                String mrp = cr.getString(cr.getColumnIndex("maxprice"));
-                Integer taxincl = cr.getInt(cr.getColumnIndex("taxincl"));
-                Integer manualp = cr.getInt(cr.getColumnIndex("manualprice"));
-                Integer ver = cr.getInt(cr.getColumnIndex("dbver"));
+                Integer skuid = cr.getInt(cr.getColumnIndexOrThrow("skuid"));
+                Integer unit = cr.getInt(cr.getColumnIndexOrThrow("unit"));
+                String pamnt = cr.getString(cr.getColumnIndexOrThrow("amount"));
+                String price = cr.getString(cr.getColumnIndexOrThrow("saleprice"));
+                String mrp = cr.getString(cr.getColumnIndexOrThrow("maxprice"));
+                Integer taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+                Integer manualp = cr.getInt(cr.getColumnIndexOrThrow("manualprice"));
+                Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
 
                 ProductPriceInfo packinfo = new ProductPriceInfo(priceid, prodid, skuid, unit,
                                                                 Float.parseFloat(pamnt),
@@ -558,20 +558,20 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
             for (int i=0; i < cnt; i++)
             {
-                Integer skuid = cr.getInt(cr.getColumnIndex("skuid"));
-                String name = cr.getString(cr.getColumnIndex("name"));
-                String desc = cr.getString(cr.getColumnIndex("description"));
-                Integer unit = cr.getInt(cr.getColumnIndex("unit"));
-                Integer unitamount = cr.getInt(cr.getColumnIndex("unitamount"));
-                Integer unitcount = cr.getInt(cr.getColumnIndex("unitcount"));
-                String amnt = cr.getString(cr.getColumnIndex("amount"));
-                String size = cr.getString(cr.getColumnIndex("size"));
-                String color = cr.getString(cr.getColumnIndex("color"));
-                String model = cr.getString(cr.getColumnIndex("model"));
-                String dimen = cr.getString(cr.getColumnIndex("dimension"));
-                String weight = cr.getString(cr.getColumnIndex("weight"));
-                String pkg = cr.getString(cr.getColumnIndex("pkgtype"));
-                Integer ver = cr.getInt(cr.getColumnIndex("dbver"));
+                Integer skuid = cr.getInt(cr.getColumnIndexOrThrow("skuid"));
+                String name = cr.getString(cr.getColumnIndexOrThrow("name"));
+                String desc = cr.getString(cr.getColumnIndexOrThrow("description"));
+                Integer unit = cr.getInt(cr.getColumnIndexOrThrow("unit"));
+                Integer unitamount = cr.getInt(cr.getColumnIndexOrThrow("unitamount"));
+                Integer unitcount = cr.getInt(cr.getColumnIndexOrThrow("unitcount"));
+                String amnt = cr.getString(cr.getColumnIndexOrThrow("amount"));
+                String size = cr.getString(cr.getColumnIndexOrThrow("size"));
+                String color = cr.getString(cr.getColumnIndexOrThrow("color"));
+                String model = cr.getString(cr.getColumnIndexOrThrow("model"));
+                String dimen = cr.getString(cr.getColumnIndexOrThrow("dimension"));
+                String weight = cr.getString(cr.getColumnIndexOrThrow("weight"));
+                String pkg = cr.getString(cr.getColumnIndexOrThrow("pkgtype"));
+                Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
 
                 ProductSKU packinfo = new ProductSKU(skuid, prodid, name, desc,
                         unit, unitamount, unitcount, Float.parseFloat(amnt),
@@ -799,7 +799,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
         for(int i=0; i< typecnt; i++)
         {
-            String itemtype = cursor.getString(cursor.getColumnIndex("category"));
+            String itemtype = cursor.getString(cursor.getColumnIndexOrThrow("category"));
 
             typelist.add(itemtype);
 
@@ -826,7 +826,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
         for(int i=0; i< typecnt; i++)
         {
-            String subcategory = cursor.getString(cursor.getColumnIndex("subcategory"));
+            String subcategory = cursor.getString(cursor.getColumnIndexOrThrow("subcategory"));
             typelist.add(subcategory);
 
             cursor.moveToNext();
@@ -855,7 +855,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
             for (int i=0; i < cnt; i++)
             {
-                Integer id = cr.getInt(cr.getColumnIndex("id"));
+                Integer id = cr.getInt(cr.getColumnIndexOrThrow("id"));
                 itemlist.add(id);
                 cr.moveToNext();
             }
@@ -882,7 +882,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
             for (int i=0; i < cnt; i++)
             {
-                Integer id = cr.getInt(cr.getColumnIndex("id"));
+                Integer id = cr.getInt(cr.getColumnIndexOrThrow("id"));
                 itemlist.add(id);
                 cr.moveToNext();
             }

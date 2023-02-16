@@ -142,14 +142,14 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
             for(int i=0;i<count;i++) {
 
-                String addr = cursor.getString(cursor.getColumnIndex("addr"));
-                String place = cursor.getString(cursor.getColumnIndex("place"));
-                String nickname = cursor.getString(cursor.getColumnIndex("nickname"));
-                String landmark = cursor.getString(cursor.getColumnIndex("landmark"));
-                String zipcode = cursor.getString(cursor.getColumnIndex("zipcode"));
-                String altcontact = cursor.getString(cursor.getColumnIndex("altcontact"));
-                String latest = cursor.getString(cursor.getColumnIndex("latest"));
-                String geoloc = cursor.getString(cursor.getColumnIndex("geocoordinate"));
+                String addr = cursor.getString(cursor.getColumnIndexOrThrow("addr"));
+                String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+                String nickname = cursor.getString(cursor.getColumnIndexOrThrow("nickname"));
+                String landmark = cursor.getString(cursor.getColumnIndexOrThrow("landmark"));
+                String zipcode = cursor.getString(cursor.getColumnIndexOrThrow("zipcode"));
+                String altcontact = cursor.getString(cursor.getColumnIndexOrThrow("altcontact"));
+                String latest = cursor.getString(cursor.getColumnIndexOrThrow("latest"));
+                String geoloc = cursor.getString(cursor.getColumnIndexOrThrow("geocoordinate"));
 
                 DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place,landmark, zipcode, altcontact);
                 addrinfo.latest = latest;
@@ -209,14 +209,14 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
         if (count >0) {
             cursor.moveToFirst();
 
-            String addr = cursor.getString(cursor.getColumnIndex("addr"));
-            String place = cursor.getString(cursor.getColumnIndex("place"));
-            String nickname = cursor.getString(cursor.getColumnIndex("nickname"));
-            String landmark = cursor.getString(cursor.getColumnIndex("landmark"));
-            String zipcode = cursor.getString(cursor.getColumnIndex("zipcode"));
-            String altcontact = cursor.getString(cursor.getColumnIndex("altcontact"));
-            String latest = cursor.getString(cursor.getColumnIndex("latest"));
-            String geoloc = cursor.getString(cursor.getColumnIndex("geocoordinate"));
+            String addr = cursor.getString(cursor.getColumnIndexOrThrow("addr"));
+            String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+            String nickname = cursor.getString(cursor.getColumnIndexOrThrow("nickname"));
+            String landmark = cursor.getString(cursor.getColumnIndexOrThrow("landmark"));
+            String zipcode = cursor.getString(cursor.getColumnIndexOrThrow("zipcode"));
+            String altcontact = cursor.getString(cursor.getColumnIndexOrThrow("altcontact"));
+            String latest = cursor.getString(cursor.getColumnIndexOrThrow("latest"));
+            String geoloc = cursor.getString(cursor.getColumnIndexOrThrow("geocoordinate"));
 
             DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place,landmark, zipcode, altcontact);
             addrinfo.latest = latest;

@@ -66,7 +66,7 @@ public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
         if (count >0)
         {
             cursor.moveToFirst();
-            curid = cursor.getInt(cursor.getColumnIndex("noticeid"));
+            curid = cursor.getInt(cursor.getColumnIndexOrThrow("noticeid"));
         }
 
         dbconn.close();

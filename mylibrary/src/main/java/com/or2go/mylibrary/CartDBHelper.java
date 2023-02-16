@@ -187,7 +187,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
         if (count >0)
         {
             cursor.moveToFirst();
-            store = cursor.getString(cursor.getColumnIndex("curstore"));
+            store = cursor.getString(cursor.getColumnIndexOrThrow("curstore"));
         }
 
         return store;
@@ -227,7 +227,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
         if (count >0)
         {
             cursor.moveToFirst();
-            loc = cursor.getString(cursor.getColumnIndex("deliname"));
+            loc = cursor.getString(cursor.getColumnIndexOrThrow("deliname"));
         }
 
         return loc;
@@ -268,13 +268,13 @@ public class CartDBHelper extends SQLiteOpenHelper {
                 for(int i=0;i<count;i++) {
 
                 //orderid text, itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text
-                String itemid = cursor.getString(cursor.getColumnIndex("itemid"));
-                String itemname = cursor.getString(cursor.getColumnIndex("itemname"));
-                Integer skuid = cursor.getInt(cursor.getColumnIndex("skuid"));
-                Integer priceid = cursor.getInt(cursor.getColumnIndex("priceid"));
-                String price = cursor.getString(cursor.getColumnIndex("price"));
-                String quantity = cursor.getString(cursor.getColumnIndex("quantity"));
-                Integer orderunit = cursor.getInt(cursor.getColumnIndex("orderunit"));
+                String itemid = cursor.getString(cursor.getColumnIndexOrThrow("itemid"));
+                String itemname = cursor.getString(cursor.getColumnIndexOrThrow("itemname"));
+                Integer skuid = cursor.getInt(cursor.getColumnIndexOrThrow("skuid"));
+                Integer priceid = cursor.getInt(cursor.getColumnIndexOrThrow("priceid"));
+                String price = cursor.getString(cursor.getColumnIndexOrThrow("price"));
+                String quantity = cursor.getString(cursor.getColumnIndexOrThrow("quantity"));
+                Integer orderunit = cursor.getInt(cursor.getColumnIndexOrThrow("orderunit"));
 
                 //Integer ounit = mUnitMgr.getUnitFromName(orderunit);
 

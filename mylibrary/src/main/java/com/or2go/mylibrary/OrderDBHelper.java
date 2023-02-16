@@ -235,24 +235,24 @@ public class OrderDBHelper extends SQLiteOpenHelper {
                 //orderid text, reqid text, time DATETIME,type text, status text, vendor text, subtotal text, discount text, delicharge text, total text,paymode text,paystatus text," +
                 //"deliaddress  text, deliplace text, custreq text, picktime DATETIME, lastupdate DATETIME, acceptcharge
 
-                String orderid = cursor.getString(cursor.getColumnIndex("orderid"));
-                String reqid = cursor.getString(cursor.getColumnIndex("reqid"));
-                String time = cursor.getString(cursor.getColumnIndex("time"));
-                Integer type = cursor.getInt(cursor.getColumnIndex("type"));
-                Integer status = cursor.getInt(cursor.getColumnIndex("status"));
-                String vendor = cursor.getString(cursor.getColumnIndex("vendor"));
-                String subtotal = cursor.getString(cursor.getColumnIndex("subtotal"));
-                String discount = cursor.getString(cursor.getColumnIndex("discount"));
-                String delicharge = cursor.getString(cursor.getColumnIndex("delicharge"));
-                String total = cursor.getString(cursor.getColumnIndex("total"));
-                Integer paymode = cursor.getInt(cursor.getColumnIndex("paymode"));
-                Integer paystatus = cursor.getInt(cursor.getColumnIndex("paystatus"));
-                String deliaddress = cursor.getString(cursor.getColumnIndex("deliaddress"));
-                String deliplace = cursor.getString(cursor.getColumnIndex("deliplace"));
-                String custreq = cursor.getString(cursor.getColumnIndex("custreq"));
-                String picktime = cursor.getString(cursor.getColumnIndex("picktime"));
-                String lastupdate = cursor.getString(cursor.getColumnIndex("lastupdate"));
-                //Integer acceptcharge = cursor.getInt(cursor.getColumnIndex("acceptcharge"));
+                String orderid = cursor.getString(cursor.getColumnIndexOrThrow("orderid"));
+                String reqid = cursor.getString(cursor.getColumnIndexOrThrow("reqid"));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow("time"));
+                Integer type = cursor.getInt(cursor.getColumnIndexOrThrow("type"));
+                Integer status = cursor.getInt(cursor.getColumnIndexOrThrow("status"));
+                String vendor = cursor.getString(cursor.getColumnIndexOrThrow("vendor"));
+                String subtotal = cursor.getString(cursor.getColumnIndexOrThrow("subtotal"));
+                String discount = cursor.getString(cursor.getColumnIndexOrThrow("discount"));
+                String delicharge = cursor.getString(cursor.getColumnIndexOrThrow("delicharge"));
+                String total = cursor.getString(cursor.getColumnIndexOrThrow("total"));
+                Integer paymode = cursor.getInt(cursor.getColumnIndexOrThrow("paymode"));
+                Integer paystatus = cursor.getInt(cursor.getColumnIndexOrThrow("paystatus"));
+                String deliaddress = cursor.getString(cursor.getColumnIndexOrThrow("deliaddress"));
+                String deliplace = cursor.getString(cursor.getColumnIndexOrThrow("deliplace"));
+                String custreq = cursor.getString(cursor.getColumnIndexOrThrow("custreq"));
+                String picktime = cursor.getString(cursor.getColumnIndexOrThrow("picktime"));
+                String lastupdate = cursor.getString(cursor.getColumnIndexOrThrow("lastupdate"));
+                //Integer acceptcharge = cursor.getInt(cursor.getColumnIndexOrThrow("acceptcharge"));
 
                 Or2goOrderInfo orderdata = new Or2goOrderInfo(orderid,type, vendor, "", status, time,
                         subtotal, delicharge, total,
@@ -276,13 +276,13 @@ public class OrderDBHelper extends SQLiteOpenHelper {
 
                     for (int j = 0; j < itemcount; j++) {
                         //itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal
-                        String itemid = itemcursor.getString(itemcursor.getColumnIndex("itemid"));
-                        String itemname = itemcursor.getString(itemcursor.getColumnIndex("itemname"));
-                        String price = itemcursor.getString(itemcursor.getColumnIndex("price"));
-                        String priceunit = itemcursor.getString(itemcursor.getColumnIndex("priceunit"));
-                        String quantity = itemcursor.getString(itemcursor.getColumnIndex("quantity"));
-                        String orderunit = itemcursor.getString(itemcursor.getColumnIndex("orderunit"));
-                        String itemtotal = itemcursor.getString(itemcursor.getColumnIndex("itemtotal"));
+                        String itemid = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemid"));
+                        String itemname = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemname"));
+                        String price = itemcursor.getString(itemcursor.getColumnIndexOrThrow("price"));
+                        String priceunit = itemcursor.getString(itemcursor.getColumnIndexOrThrow("priceunit"));
+                        String quantity = itemcursor.getString(itemcursor.getColumnIndexOrThrow("quantity"));
+                        String orderunit = itemcursor.getString(itemcursor.getColumnIndexOrThrow("orderunit"));
+                        String itemtotal = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemtotal"));
 
                         OrderItem saleitem = new OrderItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), Integer.valueOf(orderunit), 0, 0);
 

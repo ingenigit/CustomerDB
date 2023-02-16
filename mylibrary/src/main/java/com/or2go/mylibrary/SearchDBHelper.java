@@ -78,8 +78,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndex("dname"));
-                info.type = cursor.getString(cursor.getColumnIndex("dtype"));
+                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
+                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
 
                 datalist.add(info);
 
@@ -107,7 +107,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 //SearchInfo info = new SearchInfo();
 
-                String name = cursor.getString(cursor.getColumnIndex("dname"));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
 
                 datalist.add(name);
 
@@ -142,8 +142,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndex("dname"));
-                info.type = cursor.getString(cursor.getColumnIndex("dtype"));
+                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
+                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
 
                 datalist.add(info);
 
@@ -181,8 +181,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndex("dname"));
-                info.type = cursor.getString(cursor.getColumnIndex("dtype"));
+                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
+                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
 
                 datalist.add(info);
 
