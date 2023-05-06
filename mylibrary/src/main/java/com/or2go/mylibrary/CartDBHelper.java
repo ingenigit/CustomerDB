@@ -37,7 +37,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
                 "(curstore text)");
 
         db.execSQL("create table cartitems "+
-                "(itemid text, itemname text, price text, quantity text, orderunit integer, priceid integer, skuid integer)");
+                "(itemid text, itemname text, price text, quantity text, orderunit integer, skuid integer)");
 
         db.execSQL("create table deliloc "+
                 "(deliname text, deliplace text, deliaddr text)");
@@ -76,7 +76,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public boolean insertItem (String itemid, String itemname, String price, String quantity,String unit,Integer priceid, Integer skuid )
+    public boolean insertItem (String itemid, String itemname, String price, String quantity,String unit,Integer skuid )
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("itemid", itemid);
@@ -85,10 +85,10 @@ public class CartDBHelper extends SQLiteOpenHelper {
         contentValues.put("quantity", quantity);
         contentValues.put("orderunit", unit);
         contentValues.put("skuid", skuid);
-        contentValues.put("priceid", priceid);
+        //contentValues.put("priceid", priceid);
 
         long ret = cartDBConn.insert("cartitems", null, contentValues);
-        Log.i("CartDB "," Inserting Cart Item="+itemname + "packid="+priceid);
+        Log.i("CartDB "," Inserting Cart Item="+itemname + "skuid="+skuid);
         if(ret== -1)
             return false;
         else
@@ -107,17 +107,17 @@ public class CartDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateItemQnty(String itemid, Integer priceid, String qnty)
+    public boolean updateItemQnty(String itemid, Integer skuid, String qnty)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("quantity", qnty);
-        Log.i("CartDB "," Updating Quantity of Cart Item="+itemid + "  pack id="+priceid+ "  quantity to="+qnty);
+        Log.i("CartDB "," Updating Quantity of Cart Item="+itemid + "  pack id="+skuid+ "  quantity to="+qnty);
 
         //cartDBConn.update("cartitems", contentValues,"itemid="+itemid , null);
         int ret = cartDBConn.update("cartitems", contentValues,
-                "itemid = ? AND priceid = ?",
-                new String[]{itemid, priceid.toString()});
-        Log.i("CartDB "," Update qnty result="+ret + "  pack id="+priceid);
+                "itemid = ? AND skuid = ?",
+                new String[]{itemid, skuid.toString()});
+        Log.i("CartDB "," Update qnty result="+ret + "  pack id="+skuid);
         return true;
     }
 
@@ -127,12 +127,12 @@ public class CartDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean deleteItem(String itemid, Integer priceid)
+    public boolean deleteItem(String itemid, Integer skuid)
     {
 
-        Log.i("CartDB "," Deleting Cart Item="+itemid + "  pack id="+priceid);
-        int ret = cartDBConn.delete("cartitems", "itemid = ? AND priceid = ?", new String[] { itemid, priceid.toString() });
-        Log.i("CartDB "," Deleting result="+ret + "  priceid="+priceid);
+        Log.i("CartDB "," Deleting Cart Item="+itemid + "  pack id="+skuid);
+        int ret = cartDBConn.delete("cartitems", "itemid = ? AND skuid = ?", new String[] { itemid, skuid.toString() });
+        Log.i("CartDB "," Deleting result="+ret + "  priceid="+skuid);
         return true;
     }
 
@@ -271,18 +271,18 @@ public class CartDBHelper extends SQLiteOpenHelper {
                 String itemid = cursor.getString(cursor.getColumnIndexOrThrow("itemid"));
                 String itemname = cursor.getString(cursor.getColumnIndexOrThrow("itemname"));
                 Integer skuid = cursor.getInt(cursor.getColumnIndexOrThrow("skuid"));
-                Integer priceid = cursor.getInt(cursor.getColumnIndexOrThrow("priceid"));
+                //Integer priceid = cursor.getInt(cursor.getColumnIndexOrThrow("priceid"));
                 String price = cursor.getString(cursor.getColumnIndexOrThrow("price"));
                 String quantity = cursor.getString(cursor.getColumnIndexOrThrow("quantity"));
                 Integer orderunit = cursor.getInt(cursor.getColumnIndexOrThrow("orderunit"));
 
                 //Integer ounit = mUnitMgr.getUnitFromName(orderunit);
 
-                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, priceid, skuid);
+                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, 0, skuid);
 
                 itemList.add(saleitem);
 
-                Log.i("CartDB "," Retrieving Cart  Items  item="+itemname+"  packid="+priceid+ " Qnty="+quantity);
+                Log.i("CartDB "," Retrieving Cart  Items  item="+itemname+"  skuid="+skuid+ " Qnty="+quantity);
 
                 cursor.moveToNext();
             }
