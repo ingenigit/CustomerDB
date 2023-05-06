@@ -139,7 +139,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         contentValues.put("productdbversion", vinfo.getProductDBVersion());
         contentValues.put("infoversion", vinfo.getInfoVersion());
-        contentValues.put("pricedbversion", vinfo.getPriceDBVersion());
+        //contentValues.put("pricedbversion", vinfo.getPriceDBVersion());
         contentValues.put("skudbversion", vinfo.getSKUDBVersion());
 
         System.out.println("Insert Store Fav Products="+vinfo.getFavItems());

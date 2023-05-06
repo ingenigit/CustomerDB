@@ -31,22 +31,23 @@ public class ProductDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
-        //V5  : added coulumn incontrol to table prodinfo
         db.execSQL("create table prodinfo "+
                 "(id INTEGER PRIMARY KEY, name text, shortname text, description text,"+
                 "prodcode text, hsncode text, barcode text, prodtype integer, category text , subcategory text, brand text,"+
-                "priceunit integer , pricetype integer, price REAL, maxprice REAL, packtype Integer, taxinclusion INTEGER DEFAULT 1, taxrate REAL, tag text, dbver Integer, invcontrol INTEGER DEFAULT 0)");
+                "property text, avail integer, tag text, taxincl Integer DEFAULT 0, invcontrol INTEGER DEFAULT 0)");
         /*,UNIQUE(name) ON CONFLICT IGNORE*/
+
+        db.execSQL("create table skuinfo "+
+                "(skuid INTEGER PRIMARY KEY AUTOINCREMENT, prodid INTEGER, skuname text, description text,"+
+                "unit INTEGER, amount REAL, price REAL, maxprice REAL, "+
+                "size text, color text, model text, dimension text, weight Integer, pkgtype text)");
+
 
         db.execSQL("create table category "+
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, category text, refundable INTEGER DEFAULT 0, exchangeable INTEGER DEFAULT 0,  usestock INTEGER DEFAULT 0, UNIQUE(category) ON CONFLICT IGNORE)");
 
-        db.execSQL("create table priceinfo "+
-                "(priceid INTEGER PRIMARY KEY AUTOINCREMENT, prodid INTEGER, skuid INTEGER, unit INTEGER, amount REAL, saleprice REAL, maxprice REAL, taxincl Integer, manualprice Integer, dbver Integer)");
-
-        db.execSQL("create table skuinfo "+
-                "(skuid INTEGER PRIMARY KEY AUTOINCREMENT, prodid INTEGER, name text, description text, unit INTEGER, unitamount INTEGER, unitcount INTEGER,amount REAL, size text, color text, model text, dimension text, weight Integer, pkgtype text, dbver Integer)");
+        /*db.execSQL("create table priceinfo "+
+                "(priceid INTEGER PRIMARY KEY AUTOINCREMENT, prodid INTEGER, skuid INTEGER, unit INTEGER, amount REAL, saleprice REAL, maxprice REAL, taxincl Integer, manualprice Integer, dbver Integer)");*/
 
         db.execSQL("create table subcategory "+
                 "(id INTEGER PRIMARY KEY   AUTOINCREMENT, category text, subcategory text)");
@@ -74,12 +75,8 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     ////////////////////////////////////////////////////////////////////////////////////////////
     //product APIs
     ////////////////////////////////////////////////////////////////////////////////////////////
-    //name text, shortname text, description text,"+
-    //                "prodcode text, gstcode text, barcode text, type text, category text , subcategory text, brand text,"+
-    //                "unittype integer , priceunit text , pricetype integer, price REAL, taxinclusion
-    public int addproduct (  Integer itemid, String name, String shortname, String desc, String code, String hsncode, String barcode,
-                             int type, String category, String subcategory, String brand, int priceunit,
-                             int pricetype, float price , int packtype, float mrp, int taxincl, Float taxrate, String tag)
+    public int addproduct(Integer itemid, String name, String shortname, String desc, String code, String hsncode, String barcode,
+                          String category, String subcategory, String brand, int taxincl, String tag, String property, Integer invctl)
     {
         ////SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues(); 
@@ -92,22 +89,14 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("hsncode", hsncode);
         contentValues.put("barcode", barcode);
 
-        contentValues.put("prodtype", type);
         contentValues.put("category", category);
         contentValues.put("subcategory", subcategory);
         contentValues.put("brand", brand);
 
-        contentValues.put("priceunit", priceunit);
-        contentValues.put("pricetype", pricetype);
-        contentValues.put("price", price);
-        contentValues.put("taxinclusion", taxincl);
-        contentValues.put("taxrate", taxrate);
-
-        contentValues.put("packtype", packtype);
-        contentValues.put("maxprice", mrp);
-
         contentValues.put("tag", tag);
-
+        contentValues.put("property", property);
+        contentValues.put("taxincl", taxincl);
+        contentValues.put("invcontrol", invctl);
 
         long ret = productDBConn.insert("prodinfo", null, contentValues);
 
@@ -126,24 +115,17 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("hsncode", prod.gstcode);
         contentValues.put("barcode", prod.barcode);
 
-        contentValues.put("prodtype", prod.type);
+        //contentValues.put("prodtype", prod.type);
         contentValues.put("category", prod.category);
         contentValues.put("subcategory", prod.subcategory);
         contentValues.put("brand", "");
 
-        contentValues.put("priceunit", prod.unit);
-        contentValues.put("pricetype", prod.pricetype);
-        contentValues.put("price", prod.price);
-        contentValues.put("taxinclusion", prod.taxincl);
-        contentValues.put("taxrate", prod.taxrate);
-
-        contentValues.put("packtype", prod.packtype);
-        contentValues.put("maxprice", prod.maxprice);
 
         contentValues.put("tag", prod.tag);
-
+        contentValues.put("property", prod.property);
         contentValues.put("invcontrol", prod.invcontrol);
-
+        contentValues.put("taxincl", prod.taxincl);
+        contentValues.put("avail", 0/*prod.avail*/);
 
         long ret = productDBConn.insert("prodinfo", null, contentValues);
 
@@ -189,22 +171,23 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
             iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
             iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
-            iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+            //iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
             iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
             iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
             iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
             iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
             iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
 
-            iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
+            /*iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
             iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
-
             iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
             iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
-            iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
+            iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));*/
 
             iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
-
+            iteminfo.invcontrol = cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
+            iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+            iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
         }
         else
             return null;;
@@ -215,23 +198,27 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateproduct (int id,int type, String code, String hsncode, String barcode, Float price, int unit,
-                                  int taxincl, Float taxrate, String tag)
+    /*public boolean updateproduct (int id,int type, String code, String hsncode, String barcode, Float price, int unit,
+                                  int taxincl, Float taxrate, String tag)*/
+    public boolean updateproduct (int id, String code, String hsncode, String barcode, String tag, String prop,
+                                  Integer taxincl, Integer invctl)
     {
         ////SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("prodtype", type);
+        ///contentValues.put("prodtype", type);
         //contentValues.put("category", iteminfo.category);
         //contentValues.put("subcategory", iteminfo.subcategory);
         contentValues.put("prodcode", code);
         contentValues.put("hsncode", hsncode);
         contentValues.put("barcode", barcode);
-        contentValues.put("price", price);
+        /*contentValues.put("price", price);
         contentValues.put("priceunit", unit);
         contentValues.put("taxinclusion", taxincl);
-        contentValues.put("taxrate", taxrate);
+        contentValues.put("taxrate", taxrate);*/
         contentValues.put("tag", tag);
-
+        contentValues.put("property", prop);
+        contentValues.put("invcontrol", invctl);
+        contentValues.put("taxincl", taxincl);
 
         productDBConn.update("prodinfo", contentValues, "id = ? ", new String[]{String.valueOf(id)});
 
@@ -326,20 +313,22 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
                 iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
                 iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
-                iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+                //iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
                 iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
                 iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
                 iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
                 iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
                 iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
-                iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
+                /*iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
                 iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
                 iteminfo.packtype=cr.getInt(cr.getColumnIndexOrThrow("packtype"));
                 iteminfo.maxprice=cr.getFloat(cr.getColumnIndexOrThrow("maxprice"));
                 iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxinclusion"));
-                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
+                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));*/
                 iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
+                iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+                iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
 
                 prdlist.add(iteminfo);
 
@@ -370,19 +359,21 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.name = cr.getString(cr.getColumnIndexOrThrow("name"));
                 iteminfo.brandname = cr.getString(cr.getColumnIndexOrThrow("shortname"));
                 iteminfo.desc = cr.getString(cr.getColumnIndexOrThrow("description"));
-                iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
+                //iteminfo.type = cr.getInt(cr.getColumnIndexOrThrow("category"));
                 iteminfo.category = cr.getString(cr.getColumnIndexOrThrow("category"));
                 iteminfo.subcategory = cr.getString(cr.getColumnIndexOrThrow("subcategory"));
                 iteminfo.code = cr.getString(cr.getColumnIndexOrThrow("prodcode"));
                 iteminfo.barcode = cr.getString(cr.getColumnIndexOrThrow("barcode"));
                 iteminfo.gstcode = cr.getString(cr.getColumnIndexOrThrow("hsncode"));
-                iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
+                /*iteminfo.packtype = cr.getInt(cr.getColumnIndexOrThrow("packtype"));
                 iteminfo.price =cr.getFloat(cr.getColumnIndexOrThrow("price"));
                 iteminfo.unit = cr.getInt(cr.getColumnIndexOrThrow("priceunit"));
                 iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxinclusion"));
-                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
+                iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));*/
                 iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
+                iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
+                iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
 
                 if ((!invcontrol) && (iteminfo.invcontrol==1)) invcontrol=true;
 
@@ -448,7 +439,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     ////////////////////////////////////////////////////////////////////////////////////////////
     //Price APIs
     ////////////////////////////////////////////////////////////////////////////////////////////
-    public boolean addPriceData(ProductPriceInfo pricedata) {
+    /*public boolean addPriceData(ProductPriceInfo pricedata) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("priceid", pricedata.mPriceId);
         contentValues.put("prodid", pricedata.mProdId);
@@ -515,7 +506,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         }
 
     }
-
+    */
     ////////////////////////////////////////////////////////////////////////////////////////////
     //SKU APIs
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -524,9 +515,12 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("skuid", skudata.mSKUId);
         contentValues.put("prodid", skudata.mProdId);
         contentValues.put("unit", skudata.mUnit);
-        contentValues.put("unitamount", skudata.mUnitAmount);
-        contentValues.put("unitcount", skudata.mUnitCount);
+        //contentValues.put("unitamount", skudata.mUnitAmount);
+        //contentValues.put("unitcount", skudata.mUnitCount);
         contentValues.put("amount", skudata.mAmount);
+        contentValues.put("saleprice", skudata.mPrice);
+        contentValues.put("maxprice", skudata.mMRP);
+        //contentValues.put("taxincl", skudata.mTaxInclusive);
         contentValues.put("size", skudata.mSize);
         contentValues.put("color", skudata.mColor);
         contentValues.put("model", skudata.mModel);
@@ -562,9 +556,14 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 String name = cr.getString(cr.getColumnIndexOrThrow("name"));
                 String desc = cr.getString(cr.getColumnIndexOrThrow("description"));
                 Integer unit = cr.getInt(cr.getColumnIndexOrThrow("unit"));
-                Integer unitamount = cr.getInt(cr.getColumnIndexOrThrow("unitamount"));
-                Integer unitcount = cr.getInt(cr.getColumnIndexOrThrow("unitcount"));
+                //Integer unitamount = cr.getInt(cr.getColumnIndexOrThrow("unitamount"));
+                //Integer unitcount = cr.getInt(cr.getColumnIndexOrThrow("unitcount"));
                 String amnt = cr.getString(cr.getColumnIndexOrThrow("amount"));
+
+                String price = cr.getString(cr.getColumnIndexOrThrow("price"));
+                String mrp = cr.getString(cr.getColumnIndexOrThrow("maxprice"));
+                //Integer taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+
                 String size = cr.getString(cr.getColumnIndexOrThrow("size"));
                 String color = cr.getString(cr.getColumnIndexOrThrow("color"));
                 String model = cr.getString(cr.getColumnIndexOrThrow("model"));
@@ -574,8 +573,8 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
 
                 ProductSKU packinfo = new ProductSKU(skuid, prodid, name, desc,
-                        unit, unitamount, unitcount, Float.parseFloat(amnt),
-                        size, color, model, dimen, weight, pkg, ver);
+                        unit, Float.parseFloat(amnt), Float.parseFloat(price),Float.parseFloat(mrp),
+                        size, color, model, dimen, weight, pkg);
 
 
                 itemlist.add(packinfo);

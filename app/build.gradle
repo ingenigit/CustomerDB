@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.or2go.customerdb'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.or2go.customerdb"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
