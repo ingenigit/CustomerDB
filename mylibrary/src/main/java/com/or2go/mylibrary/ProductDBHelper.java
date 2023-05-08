@@ -518,7 +518,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         //contentValues.put("unitamount", skudata.mUnitAmount);
         //contentValues.put("unitcount", skudata.mUnitCount);
         contentValues.put("amount", skudata.mAmount);
-        contentValues.put("saleprice", skudata.mPrice);
+        contentValues.put("price", skudata.mPrice);
         contentValues.put("maxprice", skudata.mMRP);
         //contentValues.put("taxincl", skudata.mTaxInclusive);
         contentValues.put("size", skudata.mSize);
