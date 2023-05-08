@@ -514,6 +514,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("skuid", skudata.mSKUId);
         contentValues.put("prodid", skudata.mProdId);
+        contentValues.put("skuname", skudata.mName);
         contentValues.put("unit", skudata.mUnit);
         //contentValues.put("unitamount", skudata.mUnitAmount);
         //contentValues.put("unitcount", skudata.mUnitCount);
@@ -553,7 +554,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             for (int i=0; i < cnt; i++)
             {
                 Integer skuid = cr.getInt(cr.getColumnIndexOrThrow("skuid"));
-                String name = cr.getString(cr.getColumnIndexOrThrow("name"));
+                String name = cr.getString(cr.getColumnIndexOrThrow("skuname"));
                 String desc = cr.getString(cr.getColumnIndexOrThrow("description"));
                 Integer unit = cr.getInt(cr.getColumnIndexOrThrow("unit"));
                 //Integer unitamount = cr.getInt(cr.getColumnIndexOrThrow("unitamount"));
