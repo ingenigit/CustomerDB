@@ -527,7 +527,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("dimension", skudata.mDimension);
         contentValues.put("weight", skudata.mWeight);
         contentValues.put("pkgtype", skudata.mPkgType);
-        contentValues.put("dbver", skudata.mDBVer);
+        ///contentValues.put("dbver", skudata.mDBVer);
 
         long ret = productDBConn.insert("skuinfo", null, contentValues);
         if (ret > 0)
@@ -570,7 +570,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 String dimen = cr.getString(cr.getColumnIndexOrThrow("dimension"));
                 String weight = cr.getString(cr.getColumnIndexOrThrow("weight"));
                 String pkg = cr.getString(cr.getColumnIndexOrThrow("pkgtype"));
-                Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
+                //Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
 
                 ProductSKU packinfo = new ProductSKU(skuid, prodid, name, desc,
                         unit, Float.parseFloat(amnt), Float.parseFloat(price),Float.parseFloat(mrp),
