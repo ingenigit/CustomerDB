@@ -32,7 +32,7 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
                 "( orderid text, ordertime DATETIME,type text, status INTEGER, store text, subtotal text, discount text, delicharge text, total text,paymode INTEGER," +
                 "deliaddress  text, custreq text, comptime DATETIME,  UNIQUE(orderid) ON CONFLICT IGNORE)");
         db.execSQL("create table orderitems "+
-                "(orderid text, itemid integer, itemname text, price text, quantity text, orderunit integer, priceid integer,skuid integer, discount text, itemtotal text)");
+                "(orderid text, itemid integer, itemname text, price text, quantity text, orderunit integer, skuid integer, discount text, itemtotal text)");
 
     }
 
@@ -123,7 +123,7 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
             contentValues.put("quantity", item.getQnty());
 
             contentValues.put("orderunit", item.getOrderUnit());
-            contentValues.put("priceid", item.getPriceId());
+            //contentValues.put("priceid", item.getPriceId());
             contentValues.put("skuid", item.getSKUId());
             contentValues.put("discount", "");
             contentValues.put("itemtotal", item.getItemTotal());
@@ -220,12 +220,12 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
                     String price = itemcursor.getString(itemcursor.getColumnIndexOrThrow("price"));
                     String quantity = itemcursor.getString(itemcursor.getColumnIndexOrThrow("quantity"));
                     Integer orderunit = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("orderunit"));
-                    Integer priceid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("priceid"));
+                    //Integer priceid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("priceid"));
                     Integer skuid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("skuid"));
                     String itemtotal = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemtotal"));
 
                     OrderItem orditem = new OrderItem(itemid, itemname, Float.parseFloat(price), Float.parseFloat(quantity),
-                            orderunit, priceid, skuid);
+                            orderunit, skuid);
 
                     orderdata.addOrderedItem(orditem);
                     //itemList.add(orditem);
@@ -294,12 +294,12 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
                 String price = itemcursor.getString(itemcursor.getColumnIndexOrThrow("price"));
                 String quantity = itemcursor.getString(itemcursor.getColumnIndexOrThrow("quantity"));
                 Integer orderunit = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("orderunit"));
-                Integer priceid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("priceid"));
+                //Integer priceid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("priceid"));
                 Integer skuid = itemcursor.getInt(itemcursor.getColumnIndexOrThrow("skuid"));
                 String itemtotal = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemtotal"));
 
                 OrderItem orditem = new OrderItem(itemid, itemname, Float.parseFloat(price), Float.parseFloat(quantity),
-                        orderunit, priceid, skuid);
+                        orderunit, skuid);
 
                 orderdata.addOrderedItem(orditem);
                 itemcursor.moveToNext();

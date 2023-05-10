@@ -278,7 +278,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
 
                 //Integer ounit = mUnitMgr.getUnitFromName(orderunit);
 
-                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, 0, skuid);
+                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, skuid);
 
                 itemList.add(saleitem);
 

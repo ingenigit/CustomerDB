@@ -32,7 +32,7 @@ public class OrderDBHelper extends SQLiteOpenHelper {
                 "( orderid text, reqid text, time DATETIME,type text, status INTEGER, vendor text, subtotal text, discount text, delicharge text, total text,paymode INTEGER,paystatus INTEGER, payid text," +
                 "deliaddress text, deliplace text, delistatus INTEGER, daid text, daname text, dacontact text, pickotp text, custreq text, picktime DATETIME, lastupdate DATETIME,  UNIQUE(orderid) ON CONFLICT IGNORE)");
         db.execSQL("create table orderitems "+
-                "(orderid text, itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text)");
+                "(orderid text, itemid text, skuid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text)");
 
     }
 
@@ -120,7 +120,7 @@ public class OrderDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertorderitem (String orderid,  String itemid, String itemname, String price, String priceunit, String quantity,String unit,String total, String disc)
+    public boolean insertorderitem (String orderid,  String itemid, String skuid, String itemname, String price, String priceunit, String quantity,String unit,String total, String disc)
     {
 
         ///"(id text, itemno text, itemname text, quantity text, orderunit text, discount text, itemtotal text)");
@@ -129,6 +129,7 @@ public class OrderDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("orderid", orderid);
         contentValues.put("itemid", itemid);
+        contentValues.put("skuid", skuid);
         contentValues.put("itemname", itemname);
         contentValues.put("price", price);
         contentValues.put("priceunit", priceunit);
@@ -277,6 +278,7 @@ public class OrderDBHelper extends SQLiteOpenHelper {
                     for (int j = 0; j < itemcount; j++) {
                         //itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal
                         String itemid = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemid"));
+                        String skuid = itemcursor.getString(itemcursor.getColumnIndexOrThrow("skuid"));
                         String itemname = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemname"));
                         String price = itemcursor.getString(itemcursor.getColumnIndexOrThrow("price"));
                         String priceunit = itemcursor.getString(itemcursor.getColumnIndexOrThrow("priceunit"));
@@ -284,7 +286,7 @@ public class OrderDBHelper extends SQLiteOpenHelper {
                         String orderunit = itemcursor.getString(itemcursor.getColumnIndexOrThrow("orderunit"));
                         String itemtotal = itemcursor.getString(itemcursor.getColumnIndexOrThrow("itemtotal"));
 
-                        OrderItem saleitem = new OrderItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), Integer.valueOf(orderunit), 0, 0);
+                        OrderItem saleitem = new OrderItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), Integer.valueOf(orderunit),  0);
 
                         itemList.add(saleitem);
 
