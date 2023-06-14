@@ -310,6 +310,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                 String vplace = cursor.getString(cursor.getColumnIndexOrThrow("place"));
                 String vlocality = cursor.getString(cursor.getColumnIndexOrThrow("locality"));
                 String vstate = cursor.getString(cursor.getColumnIndexOrThrow("state"));
+                String vpin = cursor.getString(cursor.getColumnIndexOrThrow("pincode"));
                 Integer vstatus = cursor.getInt(cursor.getColumnIndexOrThrow("status"));
                 String vminord = cursor.getString(cursor.getColumnIndexOrThrow("minorder"));
                 String voptime = cursor.getString(cursor.getColumnIndexOrThrow("worktime"));
@@ -337,8 +338,8 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
 
                 Or2GoStore storeinfo = new Or2GoStore(vid, vname, vservice, vstoretype, vdesc, tag,
-                                                        vaddr, vplace, vlocality, vstate, vstatus,
-                                                        vminord, voptime, vclosed, proddbver,infover,pricever, skuver, geolocation);
+                                                        vaddr, vplace, vlocality, vstate, vpin, vstatus,
+                                                        vminord, voptime, vclosed, proddbver,infover, skuver, geolocation, payoption, ordcontrol);
                 //storeinfo.setShutdownInfo(shutfrom,shuttill,shutres,shuttype);
                 storeinfo.setProductStatus(OR2GO_VENDOR_PRODUCTLIST_EXIST);
                 storeinfo.setOrderControl(ordcontrol);
