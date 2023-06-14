@@ -34,7 +34,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table storetbl "+
                 "(storeid text, name text, servicetype text, storetype text, description text, tags text, address text, place text, locality text, state text, " +
-                "status integer, worktime text, closedon text, infoversion integer, productdbversion integer, minorder text, policy text, favproducts text," +
+                "pincode text, status integer, worktime text, closedon text, infoversion integer, productdbversion integer, minorder text, policy text, favproducts text," +
                 "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, geolocation text "+
                 ",  UNIQUE(storeid) ON CONFLICT IGNORE)");
 
@@ -76,7 +76,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
 
     public boolean insertStore (String storeid, String name, String service, String storetype, String desc, String tags,
-                                 String address, String place,String locality, String state,
+                                 String address, String place,String locality, String state, String vpin,
                                  String status, String minord, String worktime, String closedon, String policy,
                                  Integer proddbver, Integer infover, Integer skudbver, Integer pricedbver,
                                  Integer orderoption, Integer payoption, String geolocation)
@@ -92,6 +92,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("place", place);
         contentValues.put("locality", locality);
         contentValues.put("state", state);
+        contentValues.put("pincode", vpin);
         contentValues.put("status", status);
         contentValues.put("minorder", minord);
         contentValues.put("policy", policy);
@@ -127,6 +128,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("place", vinfo.getPlace());
         contentValues.put("locality", vinfo.getLocality());
         contentValues.put("state", vinfo.getState());
+        contentValues.put("pincode", vinfo.vPIN);
         contentValues.put("status", vinfo.getStatus());
         contentValues.put("minorder", vinfo.getMinOrder());
         contentValues.put("worktime", vinfo.getWorkTime());
