@@ -34,7 +34,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         db.execSQL("create table prodinfo "+
                 "(id INTEGER PRIMARY KEY, name text, shortname text, description text,"+
                 "prodcode text, hsncode text, barcode text, prodtype integer, category text , subcategory text, brand text,"+
-                "property text, avail integer, tag text, taxincl Integer DEFAULT 0, invcontrol INTEGER DEFAULT 0)");
+                "property text, avail integer, tag text, taxincl Integer DEFAULT 0, invcontrol INTEGER DEFAULT 0, imgpath DEFAULT 0)");
         /*,UNIQUE(name) ON CONFLICT IGNORE*/
 
         db.execSQL("create table skuinfo "+
@@ -76,7 +76,8 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     //product APIs
     ////////////////////////////////////////////////////////////////////////////////////////////
     public int addproduct(Integer itemid, String name, String shortname, String desc, String code, String hsncode, String barcode,
-                          String category, String subcategory, String brand, int taxincl, String tag, String property, Integer invctl)
+                          String category, String subcategory, String brand, int taxincl, String tag, String property, Integer invctl,
+                            Integer img)
     {
         ////SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues(); 
@@ -97,6 +98,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("property", property);
         contentValues.put("taxincl", taxincl);
         contentValues.put("invcontrol", invctl);
+        contentValues.put("imgpath", img);
 
         long ret = productDBConn.insert("prodinfo", null, contentValues);
 
@@ -126,6 +128,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("invcontrol", prod.invcontrol);
         contentValues.put("taxincl", prod.taxincl);
         contentValues.put("avail", 0/*prod.avail*/);
+        contentValues.put("imgpath", prod.imagepath);
 
         long ret = productDBConn.insert("prodinfo", null, contentValues);
 
@@ -188,6 +191,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             iteminfo.invcontrol = cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
             iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
             iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
+            iteminfo.imagepath = cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
         }
         else
             return null;;
@@ -201,7 +205,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     /*public boolean updateproduct (int id,int type, String code, String hsncode, String barcode, Float price, int unit,
                                   int taxincl, Float taxrate, String tag)*/
     public boolean updateproduct (int id, String code, String hsncode, String barcode, String tag, String prop,
-                                  Integer taxincl, Integer invctl)
+                                  Integer taxincl, Integer invctl, Integer imgpath)
     {
         ////SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -219,6 +223,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("property", prop);
         contentValues.put("invcontrol", invctl);
         contentValues.put("taxincl", taxincl);
+        contentValues.put("imgpath", imgpath);
 
         productDBConn.update("prodinfo", contentValues, "id = ? ", new String[]{String.valueOf(id)});
 
@@ -329,6 +334,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
                 iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
                 iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
+                iteminfo.imagepath= cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
 
                 prdlist.add(iteminfo);
 
@@ -374,6 +380,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
                 iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
+                iteminfo.imagepath= cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
 
                 if ((!invcontrol) && (iteminfo.invcontrol==1)) invcontrol=true;
 
