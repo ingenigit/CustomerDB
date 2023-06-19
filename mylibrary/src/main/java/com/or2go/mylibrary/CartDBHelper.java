@@ -37,7 +37,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
                 "(curstore text)");
 
         db.execSQL("create table cartitems "+
-                "(itemid text, itemname text, price text, quantity text, orderunit integer, skuid integer, imgpath integer)");
+                "(itemid text, itemname text, price text, quantity text, orderunit integer, skuid integer, imgpath integer, taxincl integer, taxrate real)");
 
         db.execSQL("create table deliloc "+
                 "(deliname text, deliplace text, deliaddr text)");
@@ -76,7 +76,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public boolean insertItem (String itemid, String itemname, String price, String quantity,String unit,Integer skuid, Integer img)
+    public boolean insertItem (String itemid, String itemname, String price, String quantity,String unit,Integer skuid, Integer img, Integer taxincl, Float taxrate)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("itemid", itemid);
@@ -86,6 +86,8 @@ public class CartDBHelper extends SQLiteOpenHelper {
         contentValues.put("orderunit", unit);
         contentValues.put("skuid", skuid);
         contentValues.put("imgpath", img);
+        contentValues.put("taxincl", taxincl);
+        contentValues.put("taxrate", taxrate);
         //contentValues.put("priceid", priceid);
 
         long ret = cartDBConn.insert("cartitems", null, contentValues);
@@ -277,10 +279,12 @@ public class CartDBHelper extends SQLiteOpenHelper {
                 String quantity = cursor.getString(cursor.getColumnIndexOrThrow("quantity"));
                 Integer orderunit = cursor.getInt(cursor.getColumnIndexOrThrow("orderunit"));
                 Integer imagepath = cursor.getInt(cursor.getColumnIndexOrThrow("imgpath"));
+                Integer taxIncl = cursor.getInt(cursor.getColumnIndexOrThrow("taxincl"));
+                Float taxRate = cursor.getFloat(cursor.getColumnIndexOrThrow("taxrate"));
 
                 //Integer ounit = mUnitMgr.getUnitFromName(orderunit);
 
-                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, skuid, imagepath);
+                CartItem saleitem = new CartItem(Integer.parseInt(itemid), itemname, Float.valueOf(price), Float.valueOf(quantity), orderunit, skuid, imagepath, taxIncl, taxRate);
 
                 itemList.add(saleitem);
 
