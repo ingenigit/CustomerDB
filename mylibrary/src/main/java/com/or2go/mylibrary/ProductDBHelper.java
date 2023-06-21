@@ -40,7 +40,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         db.execSQL("create table skuinfo "+
                 "(skuid INTEGER PRIMARY KEY AUTOINCREMENT, prodid INTEGER, skuname text, description text,"+
                 "unit INTEGER, amount REAL, price REAL, maxprice REAL, "+
-                "size text, color text, model text, dimension text, weight Integer, pkgtype text)");
+                "size text, color text, model text, dimension text, weight Integer, pkgtype text, stckstatus INTEGER)");
 
 
         db.execSQL("create table category "+
@@ -541,6 +541,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("dimension", skudata.mDimension);
         contentValues.put("weight", skudata.mWeight);
         contentValues.put("pkgtype", skudata.mPkgType);
+        contentValues.put("stckstatus", skudata.mStockStatus);
         ///contentValues.put("dbver", skudata.mDBVer);
 
         long ret = productDBConn.insert("skuinfo", null, contentValues);
@@ -584,11 +585,12 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 String dimen = cr.getString(cr.getColumnIndexOrThrow("dimension"));
                 String weight = cr.getString(cr.getColumnIndexOrThrow("weight"));
                 String pkg = cr.getString(cr.getColumnIndexOrThrow("pkgtype"));
+                Integer stck = cr.getInt(cr.getColumnIndexOrThrow("stckstatus"));
                 //Integer ver = cr.getInt(cr.getColumnIndexOrThrow("dbver"));
 
                 ProductSKU packinfo = new ProductSKU(skuid, prodid, name, desc,
                         unit, Float.parseFloat(amnt), Float.parseFloat(price),Float.parseFloat(mrp),
-                        size, color, model, dimen, weight, pkg);
+                        size, color, model, weight, dimen, pkg, stck);
 
 
                 itemlist.add(packinfo);
