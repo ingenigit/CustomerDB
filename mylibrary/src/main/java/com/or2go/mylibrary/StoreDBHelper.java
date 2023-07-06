@@ -35,7 +35,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         db.execSQL("create table storetbl "+
                 "(storeid text, name text, servicetype text, storetype text, description text, tags text, address text, place text, locality text, state text, " +
                 "pincode text, status integer, worktime text, closedon text, infoversion integer, productdbversion integer, minorder text, policy text, favproducts text," +
-                "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, geolocation text "+
+                "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, invcontrol integer, geolocation text "+
                 ",  UNIQUE(storeid) ON CONFLICT IGNORE)");
 
 
@@ -79,7 +79,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                                  String address, String place,String locality, String state, String vpin,
                                  String status, String minord, String worktime, String closedon, String policy,
                                  Integer proddbver, Integer infover, Integer skudbver, Integer pricedbver,
-                                 Integer orderoption, Integer payoption, String geolocation)
+                                 Integer orderoption, Integer payoption, Integer invoption, String geolocation)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("storeid", storeid);
@@ -102,6 +102,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         contentValues.put("orderoption", orderoption);
         contentValues.put("payoption", payoption);
+        contentValues.put("invoption", invoption);
 
         contentValues.put("productdbversion", proddbver);
         contentValues.put("infoversion", infover);
@@ -138,6 +139,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         contentValues.put("orderoption", vinfo.getOrderControl());
         contentValues.put("payoption", vinfo.getPayOption());
+        contentValues.put("invcontrol", vinfo.getInventoryControl());
 
         contentValues.put("productdbversion", vinfo.getProductDBVersion());
         contentValues.put("infoversion", vinfo.getInfoVersion());
@@ -185,6 +187,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         contentValues.put("orderoption", vinfo.getOrderControl());
         contentValues.put("payoption", vinfo.getPayOption());
+        contentValues.put("invcontrol", vinfo.getInventoryControl());
 
         System.out.println("Update Store - Fav Products="+vinfo.getFavItems());
         contentValues.put("favproducts", vinfo.getFavItems());
@@ -326,7 +329,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
                 Integer ordcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("orderoption"));
                 Integer payoption = cursor.getInt(cursor.getColumnIndexOrThrow("payoption"));
-
+                Integer invcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("invcontrol"));
                 String favitems = cursor.getString(cursor.getColumnIndexOrThrow("favproducts"));
 
                 //String shutfrom = cursor.getString(cursor.getColumnIndex("shutfrom"));
@@ -341,11 +344,11 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
                 Or2GoStore storeinfo = new Or2GoStore(vid, vname, vservice, vstoretype, vdesc, tag,
                                                         vaddr, vplace, vlocality, vstate, vpin, vstatus,
-                                                        vminord, voptime, vclosed, proddbver,infover, skuver, geolocation, payoption, ordcontrol);
+                                                        vminord, voptime, vclosed, proddbver,infover, skuver, geolocation, payoption, ordcontrol, invcontrol);
                 //storeinfo.setShutdownInfo(shutfrom,shuttill,shutres,shuttype);
                 storeinfo.setProductStatus(OR2GO_VENDOR_PRODUCTLIST_EXIST);
-                storeinfo.setOrderControl(ordcontrol);
-                storeinfo.setPayOption(payoption);
+                //storeinfo.setOrderControl(ordcontrol);
+                //storeinfo.setPayOption(payoption);
                 storeinfo.setFavItems(favitems);
                 vendList.add(storeinfo);
 
