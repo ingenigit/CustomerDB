@@ -27,7 +27,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("create table searchdata "+
-                "(dname text, dtype text,  UNIQUE(dname) ON CONFLICT IGNORE)");
+                "(prodname text, store text, prodid int, brand text , tag text, UNIQUE(prodname) ON CONFLICT IGNORE)");
 
     }
 
@@ -49,11 +49,13 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         return searchDBConn;
     }
 
-    public boolean insertData (String name, String type)
+    public boolean insertData (String name, String brand, String store, String tag, int id)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("dname", name);
-        contentValues.put("dtype", type);
+        contentValues.put("proddname", name);
+        contentValues.put("store", store);
+        contentValues.put("tag", tag);
+        contentValues.put("brand", brand);
 
         long ret = searchDBConn.insert("searchdata", null, contentValues);
         if(ret== -1)
@@ -78,8 +80,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
-                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
+                //info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
+                //info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
 
                 datalist.add(info);
 
@@ -129,7 +131,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         int count = 0;
 
         //Cursor cursor =  searchDBConn.rawQuery( "select * from searchdata where  dname = '"+name+"'", null );
-        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "dname", "dtype"}, "dname" + " LIKE" + "'%" + name + "%'",
+        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
                 null, null, null, null, null);
 
         count = cursor.getCount();
@@ -142,8 +144,9 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
-                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
+                info.name = cursor.getString(cursor.getColumnIndexOrThrow("prodname"));
+                info.prodid = cursor.getInt(cursor.getColumnIndexOrThrow("prodid"));
+                info.store = cursor.getString(cursor.getColumnIndexOrThrow("store"));
 
                 datalist.add(info);
 
@@ -168,7 +171,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         int count = 0;
 
         //Cursor cursor =  searchDBConn.rawQuery( "select * from searchdata where  dname = '"+name+"'", null );
-        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "dname", "dtype"}, "dname" + " LIKE" + "'%" + name + "%'",
+        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
                 null, null, null, null, null);
 
         count = cursor.getCount();
@@ -181,8 +184,9 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
                 SearchInfo info = new SearchInfo();
 
-                info.name = cursor.getString(cursor.getColumnIndexOrThrow("dname"));
-                info.type = cursor.getString(cursor.getColumnIndexOrThrow("dtype"));
+                info.name = cursor.getString(cursor.getColumnIndexOrThrow("prodname"));
+                info.prodid = cursor.getInt(cursor.getColumnIndexOrThrow("prodid"));
+                info.store = cursor.getString(cursor.getColumnIndexOrThrow("store"));
 
                 datalist.add(info);
 
