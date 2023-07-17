@@ -52,7 +52,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     public boolean insertData (String name, String brand, String store, String tag, int id)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("proddname", name);
+        contentValues.put("prodname", name);
         contentValues.put("store", store);
         contentValues.put("tag", tag);
         contentValues.put("brand", brand);
