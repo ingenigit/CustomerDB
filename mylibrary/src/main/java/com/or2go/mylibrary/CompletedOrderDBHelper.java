@@ -272,6 +272,7 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
         String comptime = cursor.getString(cursor.getColumnIndexOrThrow("comptime"));
 
         OrderHistoryInfo orderdata = new OrderHistoryInfo(orderid, store, time);
+        orderdata.setType(type);
         orderdata.oPaymode = paymode;
         orderdata.setStatus(status);
         orderdata.setTotal(total);
