@@ -28,7 +28,7 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL("create table deliveryaddr "+
-                "( nickname text, addr text, place text, landmark text, altcontact text, zipcode text, geocoordinate text, latest DATETIME,  UNIQUE(nickname) ON CONFLICT IGNORE, UNIQUE(addr) ON CONFLICT IGNORE)");
+                "( nickname text, addr text, place text, locality text, sublocality text, landmark text, altcontact text, zipcode text, geocoordinate text, latest DATETIME,  UNIQUE(nickname) ON CONFLICT IGNORE, UNIQUE(addr) ON CONFLICT IGNORE)");
 
     }
 
@@ -71,12 +71,14 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertaddr  (String nickname, String addr, String place, String landmark, String zipcode, String altcontact, String geoloc)
+    public boolean insertaddr  (String nickname, String addr, String place, String locality, String sublocality, String landmark, String zipcode, String altcontact, String geoloc)
     {
         //SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("addr", addr);
         contentValues.put("place", place);
+        contentValues.put("locality", locality);
+        contentValues.put("sublocality", sublocality);
         contentValues.put("landmark", landmark);
         contentValues.put("nickname", nickname);
         contentValues.put("altcontact", altcontact);
@@ -95,11 +97,13 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
     }
 
     //expecting profile address to be the first row
-    public boolean updateProfileAddr(String nickname, String addr, String place, String landmark, String zipcode, String altcontact, String geoloc)
+    public boolean updateProfileAddr(String nickname, String addr, String place, String locality, String sublocality, String landmark, String zipcode, String altcontact, String geoloc)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("addr", addr);
         contentValues.put("place", place);
+        contentValues.put("locality", locality);
+        contentValues.put("sublocality", sublocality);
         contentValues.put("landmark", landmark);
         //contentValues.put("nickname", nickname);
         contentValues.put("altcontact", altcontact);
@@ -144,6 +148,8 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
 
                 String addr = cursor.getString(cursor.getColumnIndexOrThrow("addr"));
                 String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+                String locality = cursor.getString(cursor.getColumnIndexOrThrow("locality"));
+                String sublocality = cursor.getString(cursor.getColumnIndexOrThrow("sublocality"));
                 String nickname = cursor.getString(cursor.getColumnIndexOrThrow("nickname"));
                 String landmark = cursor.getString(cursor.getColumnIndexOrThrow("landmark"));
                 String zipcode = cursor.getString(cursor.getColumnIndexOrThrow("zipcode"));
@@ -151,7 +157,7 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
                 String latest = cursor.getString(cursor.getColumnIndexOrThrow("latest"));
                 String geoloc = cursor.getString(cursor.getColumnIndexOrThrow("geocoordinate"));
 
-                DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place,landmark, zipcode, altcontact);
+                DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place,locality, sublocality, landmark, zipcode, altcontact);
                 addrinfo.latest = latest;
                 addrinfo.setGeoPosition(geoloc);
                 addrlist.add(addrinfo);
@@ -211,6 +217,8 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
 
             String addr = cursor.getString(cursor.getColumnIndexOrThrow("addr"));
             String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
+            String locality = cursor.getString(cursor.getColumnIndexOrThrow("locality"));
+            String sublocality = cursor.getString(cursor.getColumnIndexOrThrow("sublocality"));
             String nickname = cursor.getString(cursor.getColumnIndexOrThrow("nickname"));
             String landmark = cursor.getString(cursor.getColumnIndexOrThrow("landmark"));
             String zipcode = cursor.getString(cursor.getColumnIndexOrThrow("zipcode"));
@@ -218,7 +226,7 @@ public class DeliveryAddressDBHelper extends SQLiteOpenHelper {
             String latest = cursor.getString(cursor.getColumnIndexOrThrow("latest"));
             String geoloc = cursor.getString(cursor.getColumnIndexOrThrow("geocoordinate"));
 
-            DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place,landmark, zipcode, altcontact);
+            DeliveryAddrInfo addrinfo =new DeliveryAddrInfo(nickname,addr, place, locality, sublocality, landmark, zipcode, altcontact);
             addrinfo.latest = latest;
             addrinfo.setGeoPosition(geoloc);
 
