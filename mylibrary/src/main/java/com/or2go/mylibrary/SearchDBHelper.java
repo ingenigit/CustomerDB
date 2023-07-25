@@ -56,6 +56,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         contentValues.put("store", store);
         contentValues.put("tag", tag);
         contentValues.put("brand", brand);
+        contentValues.put("prodid", id);
 
         long ret = searchDBConn.insert("searchdata", null, contentValues);
         if(ret== -1)
