@@ -35,7 +35,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         db.execSQL("create table storetbl "+
                 "(storeid text, name text, servicetype text, storetype text, description text, tags text, address text, place text, locality text, state text, " +
                 "pincode text, status integer, worktime text, closedon text, infoversion integer, productdbversion integer, minorder text, policy text, favproducts text," +
-                "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, invcontrol integer, geolocation text "+
+                "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, invcontrol integer, geolocation text, contact text"+
                 ",  UNIQUE(storeid) ON CONFLICT IGNORE)");
 
 
@@ -79,7 +79,8 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                                  String address, String place,String locality, String state, String vpin,
                                  String status, String minord, String worktime, String closedon, String policy,
                                  Integer proddbver, Integer infover, Integer skudbver, Integer pricedbver,
-                                 Integer orderoption, Integer payoption, Integer invoption, String geolocation)
+                                 Integer orderoption, Integer payoption, Integer invoption, String geolocation,
+                                 String contact)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("storeid", storeid);
@@ -99,6 +100,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("worktime", worktime);
         contentValues.put("closedon", closedon);
         contentValues.put("geolocation", geolocation);
+        contentValues.put("contact", contact);
 
         contentValues.put("orderoption", orderoption);
         contentValues.put("payoption", payoption);
@@ -136,6 +138,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("closedon", vinfo.getClosedon());
         contentValues.put("policy", vinfo.getPolicy());
         contentValues.put("geolocation", vinfo.getGeoLoc());
+        contentValues.put("contact", vinfo.getContact());
 
         contentValues.put("orderoption", vinfo.getOrderControl());
         contentValues.put("payoption", vinfo.getPayOption());
@@ -177,6 +180,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("worktime", vinfo.getWorkTime());
         contentValues.put("closedon", vinfo.getClosedon());
         contentValues.put("geolocation", vinfo.getGeoLoc());
+        contentValues.put("contact", vinfo.getContact());
 
         ///contentValues.put("shuttype", vinfo.getShutDownType());
         ///contentValues.put("shutfrom", vinfo.getShutDownFrom());
@@ -326,6 +330,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                 Integer pricever = cursor.getInt(cursor.getColumnIndexOrThrow("pricedbversion"));
                 Integer skuver = cursor.getInt(cursor.getColumnIndexOrThrow("skudbversion"));
                 String geolocation = cursor.getString(cursor.getColumnIndexOrThrow("geolocation"));
+                String contact = cursor.getString(cursor.getColumnIndexOrThrow("contact"));
 
                 Integer ordcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("orderoption"));
                 Integer payoption = cursor.getInt(cursor.getColumnIndexOrThrow("payoption"));
@@ -344,7 +349,9 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
                 Or2GoStore storeinfo = new Or2GoStore(vid, vname, vservice, vstoretype, vdesc, tag,
                                                         vaddr, vplace, vlocality, vstate, vpin, vstatus,
-                                                        vminord, voptime, vclosed, proddbver,infover, skuver, geolocation, payoption, ordcontrol, invcontrol);
+                                                        vminord, voptime, vclosed, proddbver,infover, skuver,
+                                                        geolocation, contact,
+                                                        payoption, ordcontrol, invcontrol);
                 //storeinfo.setShutdownInfo(shutfrom,shuttill,shutres,shuttype);
                 storeinfo.setProductStatus(OR2GO_VENDOR_PRODUCTLIST_EXIST);
                 //storeinfo.setOrderControl(ordcontrol);
