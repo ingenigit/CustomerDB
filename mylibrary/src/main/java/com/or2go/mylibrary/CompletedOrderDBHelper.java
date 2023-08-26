@@ -75,6 +75,35 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
         return completedOrderDBConn;
     }
 
+    public boolean insertCompletedOrder(OrderHistoryInfo ordinfo)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("orderid", ordinfo.oId);
+        contentValues.put("type", ordinfo.oType);
+        contentValues.put("ordertime", ordinfo.oTime);
+
+        contentValues.put("status", ordinfo.oStatus);
+        contentValues.put("store", ordinfo.oStore);
+
+        contentValues.put("subtotal", ordinfo.oSubTotal);
+        contentValues.put("discount", ordinfo.oDiscount);
+        contentValues.put("delicharge", ordinfo.oDeliveryCharge);
+        contentValues.put("total", ordinfo.oTotal);
+
+        contentValues.put("paymode", ordinfo.oPaymode);
+        contentValues.put("deliaddress", ""/*ordinfo.getDeliveryAddrInfo().addr*/);
+        contentValues.put("custreq", ordinfo.oCustReq);
+        contentValues.put("comptime", ordinfo.oCompTime);
+
+
+        long newid = completedOrderDBConn.insert("orderinfo", null, contentValues);
+
+        if(newid < 0)
+            return false;
+        else
+            return true;
+    }
+
     public boolean insertCompletedOrder(Or2goOrderInfo ordinfo)
     {
         ContentValues contentValues = new ContentValues();
@@ -105,9 +134,9 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertCompletedOrderItems(Or2goOrderInfo ordinfo)
+    public boolean insertCompletedOrderItems(String orderid, ArrayList<OrderItem> itemlist)//Or2goOrderInfo ordinfo)
     {
-        ArrayList<OrderItem> itemlist = ordinfo.getItemList();
+        //ArrayList<OrderItem> itemlist = ordinfo.getItemList();
         int itemcnt = itemlist.size();
 
         for(int i=0; i< itemcnt; i++)
@@ -115,7 +144,7 @@ public class CompletedOrderDBHelper extends SQLiteOpenHelper {
             OrderItem item = itemlist.get(i);
 
             ContentValues contentValues = new ContentValues();
-            contentValues.put("orderid", ordinfo.getId());
+            contentValues.put("orderid", orderid);
             contentValues.put("itemid", item.getId());
             contentValues.put("itemname", item.getName());
 
