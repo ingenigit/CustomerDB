@@ -72,7 +72,7 @@ public class OrderDeliveryInfoDBHelper extends SQLiteOpenHelper {
         return orderDeliInfoDBConn;
     }
 
-    public boolean insertdeliinfo (String ordid, Integer sts, String daid, String name, String cont,
+    public boolean insertDeliveryInfo (String ordid, Integer sts, String daid, String name, String cont,
                                     String delitime, String desc)
     {
         //SQLiteDatabase db = this.getWritableDatabase();
@@ -93,10 +93,16 @@ public class OrderDeliveryInfoDBHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public boolean deleteDeliveryInfo(String orderid)
+    {
+        int ret = orderDeliInfoDBConn.delete("orderdeliveryinfo", "orderid = ? ", new String[] { orderid });
 
+        return true;
+
+    }
     public OrderDeliveryInfo getOrderDeliveryInfo(String orderid)
     {
-        Cursor cursor = orderDeliInfoDBConn.rawQuery("SELECT * FROM orderitems WHERE orderid = '" + orderid + "'", null);
+        Cursor cursor = orderDeliInfoDBConn.rawQuery("SELECT * FROM orderdeliveryinfo WHERE orderid = '" + orderid + "'", null);
         int itemcount = cursor.getCount();
         if (itemcount > 0) {
             cursor.moveToFirst();
@@ -115,6 +121,35 @@ public class OrderDeliveryInfoDBHelper extends SQLiteOpenHelper {
         }
 
         return null;
+    }
+
+    public boolean getOrderDeliveryInfoList(ArrayList<OrderDeliveryInfo> infolist)
+    {
+        Cursor cursor = orderDeliInfoDBConn.rawQuery("SELECT * FROM orderdeliveryinfo ", null);
+        int itemcount = cursor.getCount();
+        if (itemcount > 0) {
+            cursor.moveToFirst();
+
+            for(int i=0;i<itemcount; i++)
+            {
+                String orderid = cursor.getString(cursor.getColumnIndexOrThrow("orderid"));
+                String daid = cursor.getString(cursor.getColumnIndexOrThrow("daid"));
+                String daname = cursor.getString(cursor.getColumnIndexOrThrow("daname"));
+                String dacontact = cursor.getString(cursor.getColumnIndexOrThrow("dacontact"));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow("delitime"));
+                Integer sts = cursor.getInt(cursor.getColumnIndexOrThrow("delistatus"));
+
+                OrderDeliveryInfo deliinfo = new OrderDeliveryInfo(orderid, daid, daname, dacontact, time, sts);
+
+                infolist.add(deliinfo);
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+        return true;
     }
 
 }
