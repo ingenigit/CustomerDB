@@ -38,7 +38,8 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                 "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, invcontrol integer, geolocation text, contact text"+
                 ",  UNIQUE(storeid) ON CONFLICT IGNORE)");
 
-
+        db.execSQL("create table loginstoretbl" +
+                "(vendorid text, storeid text, loginmode integer)");
     }
 
     @Override
@@ -158,6 +159,18 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         ///contentValues.put("shutreason", vinfo.getShutDownReason());
 
         long ret = storeDBConn.insert("storetbl", null, contentValues);
+        if(ret== -1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean insertLoginStore (String vendorid,String storeid, int loginmode) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("vendorid", vendorid);
+        contentValues.put("storeid", storeid);
+        contentValues.put("loginmode", loginmode);
+        long ret = storeDBConn.insert("loginstoretbl", null, contentValues);
         if(ret== -1)
             return false;
         else
@@ -288,6 +301,11 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean deleteStoreLoginTable() {
+        storeDBConn.execSQL("Delete FROM loginstoretbl");
+        return true;
+    }
+
     //////
     public ArrayList<Or2GoStore> getStores() {
 
@@ -367,5 +385,26 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
 
         return vendList;
+    }
+
+    public ArrayList<String> getStoresLoginData() {
+        ArrayList<String> storeList;
+        Cursor cursor;
+        int count = 0;
+        cursor = storeDBConn.rawQuery("SELECT * FROM loginstoretbl", null);
+        count = cursor.getCount();
+        if (count <=0)
+            return null;
+        else {
+            storeList = new ArrayList<String>();
+            cursor.moveToFirst();
+            for(int i=0;i<count;i++) {
+                String Sid = cursor.getString(cursor.getColumnIndexOrThrow("storeid"));
+                storeList.add(Sid);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return storeList;
     }
 }
