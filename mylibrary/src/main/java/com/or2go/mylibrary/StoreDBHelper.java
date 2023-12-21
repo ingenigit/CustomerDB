@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.or2go.core.Or2GoStore;
+import com.or2go.core.StoreLoginInfo;
 
 import java.util.ArrayList;
 
@@ -165,11 +166,11 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertLoginStore (String vendorid,String storeid, int loginmode) {
+    public boolean insertLoginStore (StoreLoginInfo storeLoginInfo) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("vendorid", vendorid);
-        contentValues.put("storeid", storeid);
-        contentValues.put("loginmode", loginmode);
+        contentValues.put("vendorid", storeLoginInfo.getVendorid());
+        contentValues.put("storeid", storeLoginInfo.getStoreid());
+        contentValues.put("loginmode", storeLoginInfo.getLoginmode());
         long ret = storeDBConn.insert("loginstoretbl", null, contentValues);
         if(ret== -1)
             return false;
@@ -387,8 +388,8 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         return vendList;
     }
 
-    public ArrayList<String> getStoresLoginData() {
-        ArrayList<String> storeList;
+    public ArrayList<StoreLoginInfo> getStoresLoginData() {
+        ArrayList<StoreLoginInfo> storeList;
         Cursor cursor;
         int count = 0;
         cursor = storeDBConn.rawQuery("SELECT * FROM loginstoretbl", null);
@@ -396,11 +397,14 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         if (count <=0)
             return null;
         else {
-            storeList = new ArrayList<String>();
+            storeList = new ArrayList<StoreLoginInfo>();
             cursor.moveToFirst();
             for(int i=0;i<count;i++) {
+                String Vid = cursor.getString(cursor.getColumnIndexOrThrow("vendorid"));
                 String Sid = cursor.getString(cursor.getColumnIndexOrThrow("storeid"));
-                storeList.add(Sid);
+                Integer LMode = cursor.getInt(cursor.getColumnIndexOrThrow("loginmode"));
+                StoreLoginInfo storeLoginInfo = new StoreLoginInfo(Vid, Sid, LMode);
+                storeList.add(storeLoginInfo);
                 cursor.moveToNext();
             }
             cursor.close();
