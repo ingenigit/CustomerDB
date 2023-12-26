@@ -39,8 +39,8 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                 "pricedbversion integer, skudbversion integer, orderoption integer, payoption integer, invcontrol integer, geolocation text, contact text"+
                 ",  UNIQUE(storeid) ON CONFLICT IGNORE)");
 
-        db.execSQL("create table loginstoretbl" +
-                "(vendorid text, storeid text, loginmode integer)");
+        /*db.execSQL("create table loginstoretbl" +
+                "(vendorid text, storeid text, loginmode integer)");*/
     }
 
     @Override
@@ -166,7 +166,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertLoginStore (StoreLoginInfo storeLoginInfo) {
+    /*public boolean insertLoginStore (StoreLoginInfo storeLoginInfo) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("vendorid", storeLoginInfo.getVendorid());
         contentValues.put("storeid", storeLoginInfo.getStoreid());
@@ -176,7 +176,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
-    }
+    }*/
 
     public boolean updateStoreInfo(Or2GoStore vinfo)
     {
@@ -302,10 +302,10 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean deleteStoreLoginTable() {
+    /*public boolean deleteStoreLoginTable() {
         storeDBConn.execSQL("Delete FROM loginstoretbl");
         return true;
-    }
+    }*/
 
     //////
     public ArrayList<Or2GoStore> getStores() {
@@ -388,7 +388,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         return vendList;
     }
 
-    public ArrayList<StoreLoginInfo> getStoresLoginData() {
+    /*public ArrayList<StoreLoginInfo> getStoresLoginData() {
         ArrayList<StoreLoginInfo> storeList;
         Cursor cursor;
         int count = 0;
@@ -410,5 +410,5 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return storeList;
-    }
+    }*/
 }
