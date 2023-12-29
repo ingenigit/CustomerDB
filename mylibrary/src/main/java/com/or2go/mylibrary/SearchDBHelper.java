@@ -18,7 +18,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
     public SearchDBHelper(Context context)
     {
-        super(context, "searchDB.db", null, 1);
+        super(context, "searchDB.db", null, 2);
         mContext = context;
     }
 
@@ -34,7 +34,9 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS searchdata");
+//        db.execSQL("DROP TABLE IF EXISTS searchdata");
+        String sql = "DROP INDEX IF EXISTS prodname ";
+        db.execSQL(sql);
 
         onCreate(db);
     }
