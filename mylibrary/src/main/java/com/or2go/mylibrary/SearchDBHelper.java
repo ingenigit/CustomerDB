@@ -38,7 +38,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         String sql = "DROP INDEX IF EXISTS prodname ";
         db.execSQL(sql);
 
-        onCreate(db);
+//        onCreate(db);
     }
 
     public void InitDB()
