@@ -128,7 +128,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         contentValues.put("property", prod.property);
         contentValues.put("invcontrol", prod.invcontrol);
         contentValues.put("taxincl", prod.taxincl);
-        contentValues.put("avail", 0/*prod.avail*/);
+        contentValues.put("avail", prod.avail);
         contentValues.put("imgpath", prod.imagepath);
         contentValues.put("taxrate", prod.taxrate);
 
@@ -192,6 +192,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
             iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
             iteminfo.invcontrol = cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
             iteminfo.taxincl = cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+            iteminfo.avail = cr.getInt(cr.getColumnIndexOrThrow("avail"));
             iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
             iteminfo.imagepath = cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
             iteminfo.taxrate = cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
@@ -337,6 +338,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
                 iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+                iteminfo.avail= cr.getInt(cr.getColumnIndexOrThrow("avail"));
                 iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
                 iteminfo.imagepath= cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
                 iteminfo.taxrate= cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));
@@ -383,6 +385,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 iteminfo.taxrate =cr.getFloat(cr.getColumnIndexOrThrow("taxrate"));*/
                 iteminfo.tag = cr.getString(cr.getColumnIndexOrThrow("tag"));
                 iteminfo.taxincl= cr.getInt(cr.getColumnIndexOrThrow("taxincl"));
+                iteminfo.avail= cr.getInt(cr.getColumnIndexOrThrow("avail"));
                 iteminfo.invcontrol= cr.getInt(cr.getColumnIndexOrThrow("invcontrol"));
                 iteminfo.property = cr.getString(cr.getColumnIndexOrThrow("property"));
                 iteminfo.imagepath= cr.getInt(cr.getColumnIndexOrThrow("imgpath"));
