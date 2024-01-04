@@ -18,7 +18,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
     public SearchDBHelper(Context context)
     {
-        super(context, "searchDB.db", null, 2);
+        super(context, "searchDB.db", null, 3);
         mContext = context;
     }
 
@@ -28,6 +28,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table searchdata "+
                 "(prodname text, store text, prodid int, brand text , tag text, UNIQUE(prodname) ON CONFLICT IGNORE)");
+        db.execSQL("create table searchpro "+
+                "(prodname text, store text, prodid int, brand text , tag text)");
 
     }
 
@@ -35,9 +37,13 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
 //        db.execSQL("DROP TABLE IF EXISTS searchdata");
-        String sql = "DROP INDEX IF EXISTS prodname ";
-        db.execSQL(sql);
-
+//        String sql = "DROP INDEX IF EXISTS prodname ";
+        if (oldVersion < 3) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS searchpro "+
+                    "(prodname text, store text, prodid int, brand text , tag text)");
+            db.execSQL("INSERT INTO searchpro (prodname, store, prodid, brand, tag)" +
+                    " SELECT prodname, store, prodid, brand, tag FROM searchdata;");
+        }
 //        onCreate(db);
     }
 
@@ -60,7 +66,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         contentValues.put("brand", brand);
         contentValues.put("prodid", id);
 
-        long ret = searchDBConn.insert("searchdata", null, contentValues);
+        long ret = searchDBConn.insert("searchpro", null, contentValues);
         if(ret== -1)
             return false;
         else
@@ -73,7 +79,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         Cursor cursor;
         int count = 0;
 
-        cursor = searchDBConn.rawQuery("SELECT * FROM searchdata ", null);
+        cursor = searchDBConn.rawQuery("SELECT * FROM searchpro ", null);
         count = cursor.getCount();
 
         if (count >0)
@@ -102,7 +108,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         Cursor cursor;
         int count = 0;
 
-        cursor = searchDBConn.rawQuery("SELECT * FROM searchdata ", null);
+        cursor = searchDBConn.rawQuery("SELECT * FROM searchpro ", null);
         count = cursor.getCount();
 
         if (count >0)
@@ -134,7 +140,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         int count = 0;
 
         //Cursor cursor =  searchDBConn.rawQuery( "select * from searchdata where  dname = '"+name+"'", null );
-        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
+        Cursor cursor = searchDBConn.query(true, "searchpro", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
                 null, null, null, null, null);
 
         count = cursor.getCount();
@@ -174,7 +180,7 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         int count = 0;
 
         //Cursor cursor =  searchDBConn.rawQuery( "select * from searchdata where  dname = '"+name+"'", null );
-        Cursor cursor = searchDBConn.query(true, "searchdata", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
+        Cursor cursor = searchDBConn.query(true, "searchpro", new String[] { "prodname", "store", "prodid"}, "prodname" + " LIKE" + "'%" + name + "%' OR " +"tag" + " LIKE" + "'%" + name + "%'",
                 null, null, null, null, null);
 
         count = cursor.getCount();
