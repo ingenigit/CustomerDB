@@ -73,7 +73,7 @@ public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
 
     public boolean clearNoticeInfo()
     {
-        dbconn.delete("publicnoticeinfo", null,null);
+        dbconn.delete("publicnotice", null,null);
         return true;
     }
 
