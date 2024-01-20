@@ -107,4 +107,22 @@ public class LoginInfoDBHelper extends SQLiteOpenHelper {
         }
         return storeList;
     }
+
+    public StoreLoginInfo existsStoreId(String storeId) {
+        StoreLoginInfo result;
+        Cursor cursor = loginDBConn.query(false, "logininfotbl", new String[]{ "vendorid", "storeid", "loginmode"}, "storeid=?",new String[]{ storeId },
+                null, null, null, null);
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            String Vid = cursor.getString(cursor.getColumnIndexOrThrow("vendorid"));
+            String Sid = cursor.getString(cursor.getColumnIndexOrThrow("storeid"));
+            Integer LMode = cursor.getInt(cursor.getColumnIndexOrThrow("loginmode"));
+            result = new StoreLoginInfo(Vid, Sid, LMode);
+        }
+        else
+            return null;
+        cursor.close();
+
+        return result;
+    }
 }

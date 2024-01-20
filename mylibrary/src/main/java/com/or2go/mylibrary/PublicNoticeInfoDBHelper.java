@@ -6,15 +6,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.or2go.core.PubNotice;
+import com.or2go.core.StoreLoginInfo;
+
+import java.util.ArrayList;
+
 public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
 
     private static VendorDBHelper sInstance;
 
     Context mContext;
+    SQLiteDatabase dbconn;
 
     public PublicNoticeInfoDBHelper(Context context)
     {
-        super(context, "publicNoticeInfoDB.db", null, 1);
+        super(context, "publicNoticeInfoDB.db", null, 2);
         mContext = context;
     }
 
@@ -24,21 +30,41 @@ public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table publicnoticeinfo "+
                 "(noticeid integer, name text,   UNIQUE(noticeid) ON CONFLICT IGNORE)" );
+        db.execSQL("create table publicnotice "+
+                "(noticeid integer, title text, notice text, noticeimg text, loctype integer, tagloc text, frequencytype integer," +
+                "timeperiod text, endtime text, UNIQUE(noticeid) ON CONFLICT IGNORE)" );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
+        if (oldVersion < 2){
+            db.execSQL("CREATE TABLE IF NOT EXISTS publicnotice "+
+                    "(noticeid integer, title text, notice text, noticeimg text," +
+                    "loctype integer, tagloc text, frequencytype integer," +
+                    "timeperiod text, endtime text, UNIQUE(noticeid) ON CONFLICT IGNORE)");
+        }
     }
 
-    public boolean insertNoticeInfo (Integer id)
+    public void InitDB()
+    {
+        dbconn = this.getWritableDatabase();
+    }
+
+    public boolean insertNoticeInfo (PubNotice pubNotice)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("noticeid", id);
+        contentValues.put("noticeid", pubNotice.noticeID);
+        contentValues.put("title", pubNotice.title);
+        contentValues.put("notice", pubNotice.notice);
+        contentValues.put("noticeimg", pubNotice.image);
+        contentValues.put("loctype", pubNotice.targetloctype);
+        contentValues.put("tagloc", pubNotice.targetloc);
+        contentValues.put("frequencytype", pubNotice.frequencytype);
+        contentValues.put("timeperiod", pubNotice.timeperiod);
+        contentValues.put("endtime", pubNotice.end);
 
-        SQLiteDatabase dbconn = this.getWritableDatabase();
-        long ret =  dbconn.insert("publicnoticeinfo", null, contentValues);
-        dbconn.close();
+        long ret =  dbconn.insert("publicnotice", null, contentValues);
         if(ret== -1)
             return false;
         else
@@ -47,30 +73,61 @@ public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
 
     public boolean clearNoticeInfo()
     {
-        SQLiteDatabase dbconn = this.getWritableDatabase();
         dbconn.delete("publicnoticeinfo", null,null);
-        dbconn.close();
-
         return true;
     }
 
-    public Integer getNoticeInfo()
+    public ArrayList<PubNotice> getNoticeInfo()
     {
+        ArrayList<PubNotice> pubNoticeArrayList;
         Cursor cursor;
         int count = 0;
         Integer curid=0;
 
-        SQLiteDatabase dbconn = this.getWritableDatabase();
-        cursor = dbconn.rawQuery("SELECT * FROM publicnoticeinfo", null);
+        cursor = dbconn.rawQuery("SELECT * FROM publicnotice", null);
         count = cursor.getCount();
-        if (count >0)
-        {
+        if (count <=0)
+            return null;
+        else {
+            pubNoticeArrayList = new ArrayList<PubNotice>();
             cursor.moveToFirst();
-            curid = cursor.getInt(cursor.getColumnIndexOrThrow("noticeid"));
+            for(int i=0;i<count;i++) {
+                Integer noticeid = cursor.getInt(cursor.getColumnIndexOrThrow("noticeid"));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String notice = cursor.getString(cursor.getColumnIndexOrThrow("notice"));
+                String noticeimg = cursor.getString(cursor.getColumnIndexOrThrow("noticeimg"));
+                Integer loctype = cursor.getInt(cursor.getColumnIndexOrThrow("loctype"));
+                Integer frequencytype = cursor.getInt(cursor.getColumnIndexOrThrow("frequencytype"));
+                String tagloc = cursor.getString(cursor.getColumnIndexOrThrow("tagloc"));
+                String timeperiod = cursor.getString(cursor.getColumnIndexOrThrow("timeperiod"));
+                String end = cursor.getString(cursor.getColumnIndexOrThrow("end"));
+                PubNotice pubNotice = new PubNotice(noticeid, title, notice, noticeimg, loctype, frequencytype, tagloc, timeperiod, "", end, "");
+                pubNoticeArrayList.add(pubNotice);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-
-        dbconn.close();
-        return curid;
+        return pubNoticeArrayList;
     }
 
+    public PubNotice getByNoticeId(String noticeId) {
+        PubNotice result;
+        Cursor cursor = dbconn.query(false, "publicnotice", new String[]{ "title", "notice", "noticeimg", "end"}, "noticeid=?",new String[]{ noticeId },
+                null, null, null, null);
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            String notice = cursor.getString(cursor.getColumnIndexOrThrow("notice"));
+            String img = cursor.getString(cursor.getColumnIndexOrThrow("noticeimg"));
+            String time = cursor.getString(cursor.getColumnIndexOrThrow("end"));
+            result = new PubNotice(-1,
+                    title, notice, img,
+                    -1,-1,"","","",
+                    time, "");
+        }
+        else
+            return null;
+        cursor.close();
+        return result;
+    }
 }
