@@ -100,7 +100,7 @@ public class PublicNoticeInfoDBHelper extends SQLiteOpenHelper {
                 Integer frequencytype = cursor.getInt(cursor.getColumnIndexOrThrow("frequencytype"));
                 String tagloc = cursor.getString(cursor.getColumnIndexOrThrow("tagloc"));
                 String timeperiod = cursor.getString(cursor.getColumnIndexOrThrow("timeperiod"));
-                String end = cursor.getString(cursor.getColumnIndexOrThrow("end"));
+                String end = cursor.getString(cursor.getColumnIndexOrThrow("endtime"));
                 PubNotice pubNotice = new PubNotice(noticeid, title, notice, noticeimg, loctype, frequencytype, tagloc, timeperiod, "", end, "");
                 pubNoticeArrayList.add(pubNotice);
                 cursor.moveToNext();
