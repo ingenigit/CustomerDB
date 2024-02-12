@@ -99,7 +99,7 @@ public class CartDBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertBaseItem (String itemid,Integer skuid, String quantity,String unit)
+    public boolean insertBaseItem (String itemid,Integer skuid, String quantity,Integer unit)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("itemid", itemid);
