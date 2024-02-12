@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.or2go.core.BaseCartItem;
 import com.or2go.core.CartItem;
 import com.or2go.core.UnitManager;
 
@@ -92,6 +93,28 @@ public class CartDBHelper extends SQLiteOpenHelper {
 
         long ret = cartDBConn.insert("cartitems", null, contentValues);
         Log.i("CartDB "," Inserting Cart Item="+itemname + "skuid="+skuid);
+        if(ret== -1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean insertBaseItem (String itemid,Integer skuid, String quantity,String unit)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("itemid", itemid);
+        contentValues.put("itemname", "");
+        contentValues.put("price", "");
+        contentValues.put("quantity", quantity);
+        contentValues.put("orderunit", unit);
+        contentValues.put("skuid", skuid);
+        contentValues.put("imgpath", "");
+        contentValues.put("taxincl", "");
+        contentValues.put("taxrate", "");
+        //contentValues.put("priceid", priceid);
+
+        long ret = cartDBConn.insert("cartitems", null, contentValues);
+        Log.i("CartDB "," Inserting Cart Item="+itemid + "skuid="+skuid);
         if(ret== -1)
             return false;
         else
@@ -251,6 +274,56 @@ public class CartDBHelper extends SQLiteOpenHelper {
     }
 
     //////
+    public ArrayList<BaseCartItem> getBaseCartItems() {
+
+        ArrayList<BaseCartItem> itemList;
+        Cursor cursor;
+        int count = 0;
+
+        cursor = cartDBConn.rawQuery("SELECT * FROM cartitems", null);
+        count = cursor.getCount();
+        Log.i("CartDB "," Retrieving Cart  Items Count="+count);
+
+        if (count <=0)
+            return null;
+        else
+        {
+            itemList = new ArrayList<BaseCartItem>();
+
+            cursor.moveToFirst();
+            for(int i=0;i<count;i++) {
+
+                //orderid text, itemid text, itemname text, price text, priceunit, quantity text, orderunit text, discount text, itemtotal text
+                String itemid = cursor.getString(cursor.getColumnIndexOrThrow("itemid"));
+                //String itemname = cursor.getString(cursor.getColumnIndexOrThrow("itemname"));
+                Integer skuid = cursor.getInt(cursor.getColumnIndexOrThrow("skuid"));
+                //Integer priceid = cursor.getInt(cursor.getColumnIndexOrThrow("priceid"));
+                //String price = cursor.getString(cursor.getColumnIndexOrThrow("price"));
+                String quantity = cursor.getString(cursor.getColumnIndexOrThrow("quantity"));
+                Integer orderunit = cursor.getInt(cursor.getColumnIndexOrThrow("orderunit"));
+                //Integer imagepath = cursor.getInt(cursor.getColumnIndexOrThrow("imgpath"));
+                //Integer taxIncl = cursor.getInt(cursor.getColumnIndexOrThrow("taxincl"));
+                //Float taxRate = cursor.getFloat(cursor.getColumnIndexOrThrow("taxrate"));
+
+                //Integer ounit = mUnitMgr.getUnitFromName(orderunit);
+
+                BaseCartItem saleitem = new BaseCartItem(Integer.parseInt(itemid), skuid, Float.valueOf(quantity), orderunit);
+
+                itemList.add(saleitem);
+
+                Log.i("CartDB "," Retrieving Cart  Items  item="+itemid+"  skuid="+skuid+ " Qnty="+quantity);
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+
+        return itemList;
+    }
+
+
     public ArrayList<CartItem> getCartItems() {
 
         ArrayList<CartItem> itemList;
