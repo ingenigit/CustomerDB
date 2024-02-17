@@ -29,6 +29,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
     }
 
+    /* 2024.02.17 : pricedbversion which is not used anymore is now used for storing store delivery option */
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -80,7 +81,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
     public boolean insertStore (String storeid, String name, String service, String storetype, String desc, String tags,
                                  String address, String place,String locality, String state, String vpin,
                                  String status, String minord, String worktime, String closedon, String policy,
-                                 Integer proddbver, Integer infover, Integer skudbver, Integer pricedbver,
+                                 Integer proddbver, Integer infover, Integer skudbver, Integer deliveryoption,
                                  Integer orderoption, Integer payoption, Integer invoption, String geolocation,
                                  String contact)
     {
@@ -110,7 +111,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
         contentValues.put("productdbversion", proddbver);
         contentValues.put("infoversion", infover);
-        contentValues.put("pricedbversion", pricedbver);
+        contentValues.put("pricedbversion", deliveryoption);
         contentValues.put("skudbversion", skudbver);
 
         long ret = storeDBConn.insert("vendortbl", null, contentValues);
@@ -145,10 +146,10 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("orderoption", vinfo.getOrderControl());
         contentValues.put("payoption", vinfo.getPayOption());
         contentValues.put("invcontrol", vinfo.getInventoryControl());
+        contentValues.put("pricedbversion", vinfo.getDeliveryOption());
 
         contentValues.put("productdbversion", vinfo.getProductDBVersion());
         contentValues.put("infoversion", vinfo.getInfoVersion());
-        //contentValues.put("pricedbversion", vinfo.getPriceDBVersion());
         contentValues.put("skudbversion", vinfo.getSKUDBVersion());
 
         System.out.println("Insert Store Fav Products="+vinfo.getFavItems());
@@ -206,6 +207,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
         contentValues.put("orderoption", vinfo.getOrderControl());
         contentValues.put("payoption", vinfo.getPayOption());
         contentValues.put("invcontrol", vinfo.getInventoryControl());
+        contentValues.put("pricedbversion", vinfo.getDeliveryOption());
 
         System.out.println("Update Store - Fav Products="+vinfo.getFavItems());
         contentValues.put("favproducts", vinfo.getFavItems());
@@ -235,7 +237,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public boolean updatePriceDBVersion (String id, int version)
+    /*public boolean updatePriceDBVersion (String id, int version)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("pricedbversion", version);
@@ -245,7 +247,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
-    }
+    }*/
 
     public boolean updateSKUDBVersion (String id, int version)
     {
@@ -346,7 +348,6 @@ public class StoreDBHelper extends SQLiteOpenHelper {
 
                 Integer proddbver = cursor.getInt(cursor.getColumnIndexOrThrow("productdbversion"));
                 Integer infover = cursor.getInt(cursor.getColumnIndexOrThrow("infoversion"));
-                Integer pricever = cursor.getInt(cursor.getColumnIndexOrThrow("pricedbversion"));
                 Integer skuver = cursor.getInt(cursor.getColumnIndexOrThrow("skudbversion"));
                 String geolocation = cursor.getString(cursor.getColumnIndexOrThrow("geolocation"));
                 String contact = cursor.getString(cursor.getColumnIndexOrThrow("contact"));
@@ -355,6 +356,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                 Integer payoption = cursor.getInt(cursor.getColumnIndexOrThrow("payoption"));
                 Integer invcontrol = cursor.getInt(cursor.getColumnIndexOrThrow("invcontrol"));
                 String favitems = cursor.getString(cursor.getColumnIndexOrThrow("favproducts"));
+                Integer deliveryopt = cursor.getInt(cursor.getColumnIndexOrThrow("pricedbversion"));
 
                 //String shutfrom = cursor.getString(cursor.getColumnIndex("shutfrom"));
                 //String shuttill = cursor.getString(cursor.getColumnIndex("shuttill"));
@@ -370,7 +372,7 @@ public class StoreDBHelper extends SQLiteOpenHelper {
                                                         vaddr, vplace, vlocality, vstate, vpin, vstatus,
                                                         vminord, voptime, vclosed, proddbver,infover, skuver,
                                                         geolocation, contact,
-                                                        payoption, ordcontrol, invcontrol);
+                                                        payoption, ordcontrol, invcontrol, deliveryopt);
                 //storeinfo.setShutdownInfo(shutfrom,shuttill,shutres,shuttype);
                 storeinfo.setProductStatus(OR2GO_VENDOR_PRODUCTLIST_EXIST);
                 //storeinfo.setOrderControl(ordcontrol);
